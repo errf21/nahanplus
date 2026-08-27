@@ -728,16 +728,98 @@ export default {
 <script>
 (function(){
   const _token=()=>{try{return localStorage.getItem('nahan_token')||''}catch(e){return ''}};
-  async function _api(body){const r=await fetch('/'+encodeURI(window.NAHAN_API_ROUTE||'sync')+'/api/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:_token(),...body})});return await r.json()}
-  async function loadExtra(){try{const r=await _api({});if(!r.success)return;const c=r.config||r;const f=c.fragment||{};const el=id=>document.getElementById(id);if(el('frag-enabled'))el('frag-enabled').checked=!!f.enabled;if(el('frag-packets'))el('frag-packets').value=f.packets||'tlshello';if(el('frag-len-min'))el('frag-len-min').value=f.lengthMin||50;if(el('frag-len-max'))el('frag-len-max').value=f.lengthMax||100;if(el('frag-slp-min'))el('frag-slp-min').value=f.sleepMin||50;if(el('frag-slp-max'))el('frag-slp-max').value=f.sleepMax||100;if(el('operator-preset'))el('operator-preset').value=c.operatorPreset||'';if(el('routing-rules'))el('routing-rules').value=c.routingRules||'';var pr=c.presetRouting||{};['iran','china','russia'].forEach(function(r){var e=document.getElementById('pr-bypass-'+r);if(e){e.checked=!!pr['bypass'+r.charAt(0).toUpperCase()+r.slice(1)]}});['ads','porn','quic','malware','phishing','cryptominers'].forEach(function(b){var e=document.getElementById('pr-block-'+b);if(e){e.checked=!!pr['block'+b.charAt(0).toUpperCase()+b.slice(1)]}});var sr=c.sanctionRules||{};['chatgpt','google-ai','microsoft','oracle','docker','adobe','epic-games','intel','amd','nvidia','asus','hp','lenovo'].forEach(function(s){var e=document.getElementById('sr-'+s);if(e){e.checked=!!sr[s.replace(/-([a-z])/g,function(m,p){return p.toUpperCase()})]}});if(el('custom-bypass-rules'))el('custom-bypass-rules').value=c.customBypassRules||'';if(el('custom-block-rules'))el('custom-block-rules').value=c.customBlockRules||'';var tls=c.tlsMask||{};if(el('tls-enabled'))el('tls-enabled').checked=!!tls.enabled;if(el('tls-fm'))el('tls-fm').value=tls.fm||'';if(el('tls-cs'))el('tls-cs').value=tls.cs||'';if(el('tls-sni'))el('tls-sni').value=tls.sni||'www.speedtest.net'}catch(e){}}
-  window.saveFragment=async function(){await _api({config:{fragment:{enabled:!!document.getElementById('frag-enabled').checked,packets:document.getElementById('frag-packets').value,lengthMin:parseInt(document.getElementById('frag-len-min').value)||50,lengthMax:parseInt(document.getElementById('frag-len-max').value)||100,sleepMin:parseInt(document.getElementById('frag-slp-min').value)||50,sleepMax:parseInt(document.getElementById('frag-slp-max').value)||100}}})};
-  window.saveOperator=async function(){await _api({config:{operatorPreset:document.getElementById('operator-preset').value}})};
-  window.saveRouting=async function(){await _api({config:{routingRules:document.getElementById('routing-rules').value}})};
-  window.savePresetRouting=async function(){var pr={};['iran','china','russia'].forEach(function(r){var e=document.getElementById('pr-bypass-'+r);if(e)pr['bypass'+r.charAt(0).toUpperCase()+r.slice(1)]=e.checked});['ads','porn','quic','malware','phishing','cryptominers'].forEach(function(b){var e=document.getElementById('pr-block-'+b);if(e)pr['block'+b.charAt(0).toUpperCase()+b.slice(1)]=e.checked});await _api({config:{presetRouting:pr}})};
-  window.saveSanctionRules=async function(){var sr={};['chatgpt','google-ai','microsoft','oracle','docker','adobe','epic-games','intel','amd','nvidia','asus','hp','lenovo'].forEach(function(s){var e=document.getElementById('sr-'+s);if(e)sr[s.replace(/-([a-z])/g,function(m,p){return p.toUpperCase()})]=e.checked});await _api({config:{sanctionRules:sr}})};
-  window.saveCustomRules=async function(){await _api({config:{customBypassRules:document.getElementById('custom-bypass-rules').value||'',customBlockRules:document.getElementById('custom-block-rules').value||''}})};
-  window.saveTlsMask=async function(){await _api({config:{tlsMask:{enabled:!!document.getElementById('tls-enabled').checked,fm:document.getElementById('tls-fm').value||'',cs:document.getElementById('tls-cs').value||'',sni:document.getElementById('tls-sni').value||'www.speedtest.net'}}})};
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',loadExtra);else loadExtra();
+  function _toast(msg, type){
+    try {
+      const t = document.getElementById('toast') || document.getElementById('copy-toast');
+      if (!t) { console.log('[toast]', msg); return; }
+      const colors = { success: 'bg-emerald-500', error: 'bg-red-500', info: 'bg-slate-800' };
+      t.textContent = msg;
+      t.className = (t.id === 'toast' ? 'fixed bottom-24 left-1/2 -translate-x-1/2 px-5 py-3 text-white rounded-xl text-sm font-bold shadow-xl transition-opacity duration-300 pointer-events-none z-[60] ' : 'fixed top-20 md:top-10 left-1/2 -translate-x-1/2 bg-slate-800 dark:bg-[var(--color-surface)] text-white dark:text-slate-900 px-6 py-3 rounded-full shadow-2xl font-bold text-sm z-[60] transition-all transform ') + (colors[type] || colors.info);
+      t.style.opacity = '1';
+      if (t.id === 'toast') t.style.bottom = '5rem';
+      setTimeout(function(){ t.style.opacity = '0'; }, 2500);
+    } catch (e) { console.log('[toast]', msg); }
+  }
+  async function _api(body){
+    try {
+      const r = await fetch('/' + encodeURI(window.NAHAN_API_ROUTE || 'sync') + '/api/sync', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({key: _token(), ...body}) });
+      return await r.json();
+    } catch (e) { return { success: false, error: e.message }; }
+  }
+  function _applyConfig(c){
+    if (!c) return;
+    const f = c.fragment || {};
+    const el = id => document.getElementById(id);
+    if(el('frag-enabled')) el('frag-enabled').checked = !!f.enabled;
+    if(el('frag-packets')) el('frag-packets').value = f.packets || 'tlshello';
+    if(el('frag-len-min')) el('frag-len-min').value = f.lengthMin || 50;
+    if(el('frag-len-max')) el('frag-len-max').value = f.lengthMax || 100;
+    if(el('frag-slp-min')) el('frag-slp-min').value = f.sleepMin || 50;
+    if(el('frag-slp-max')) el('frag-slp-max').value = f.sleepMax || 100;
+    if(el('operator-preset')) el('operator-preset').value = c.operatorPreset || '';
+    if(el('routing-rules')) el('routing-rules').value = c.routingRules || '';
+    const pr = c.presetRouting || {};
+    ['iran','china','russia'].forEach(function(r){
+      const e = el('pr-bypass-' + r);
+      if (e) e.checked = !!pr['bypass' + r.charAt(0).toUpperCase() + r.slice(1)];
+    });
+    ['ads','porn','quic','malware','phishing','cryptominers'].forEach(function(b){
+      const e = el('pr-block-' + b);
+      if (e) e.checked = !!pr['block' + b.charAt(0).toUpperCase() + b.slice(1)];
+    });
+    const sr = c.sanctionRules || {};
+    ['chatgpt','google-ai','microsoft','oracle','docker','adobe','epic-games','intel','amd','nvidia','asus','hp','lenovo'].forEach(function(s){
+      const e = el('sr-' + s);
+      if (e) e.checked = !!sr[s.replace(/-([a-z])/g, function(m,p){ return p.toUpperCase(); })];
+    });
+    if(el('custom-bypass-rules')) el('custom-bypass-rules').value = c.customBypassRules || '';
+    if(el('custom-block-rules')) el('custom-block-rules').value = c.customBlockRules || '';
+    const tls = c.tlsMask || {};
+    if(el('tls-enabled')) el('tls-enabled').checked = !!tls.enabled;
+    if(el('tls-fm')) el('tls-fm').value = tls.fm || '';
+    if(el('tls-cs')) el('tls-cs').value = tls.cs || '';
+    if(el('tls-sni')) el('tls-sni').value = tls.sni || 'www.speedtest.net';
+  }
+  async function loadExtra(){
+    try {
+      const r = await _api({});
+      if (r && r.success) _applyConfig(r.config || r);
+    } catch (e) { console.error('loadExtra failed', e); }
+  }
+  window.saveFragment = async function(){
+    const res = await _api({config:{fragment:{enabled:!!document.getElementById('frag-enabled').checked,packets:document.getElementById('frag-packets').value,lengthMin:parseInt(document.getElementById('frag-len-min').value)||50,lengthMax:parseInt(document.getElementById('frag-len-max').value)||100,sleepMin:parseInt(document.getElementById('frag-slp-min').value)||50,sleepMax:parseInt(document.getElementById('frag-slp-max').value)||100}}});
+    if (res && res.success) { _toast('Fragment saved', 'success'); if (res.config) _applyConfig(res.config); } else { _toast('Save failed: ' + (res.error || 'unknown'), 'error'); }
+  };
+  window.saveOperator = async function(){
+    const res = await _api({config:{operatorPreset:document.getElementById('operator-preset').value}});
+    if (res && res.success) { _toast('Operator saved', 'success'); if (res.config) _applyConfig(res.config); } else { _toast('Save failed: ' + (res.error || 'unknown'), 'error'); }
+  };
+  window.saveRouting = async function(){
+    const res = await _api({config:{routingRules:document.getElementById('routing-rules').value}});
+    if (res && res.success) { _toast('Routing saved', 'success'); if (res.config) _applyConfig(res.config); } else { _toast('Save failed: ' + (res.error || 'unknown'), 'error'); }
+  };
+  window.savePresetRouting = async function(){
+    var pr = {};
+    ['iran','china','russia'].forEach(function(r){ var e=document.getElementById('pr-bypass-'+r); if(e) pr['bypass'+r.charAt(0).toUpperCase()+r.slice(1)] = e.checked; });
+    ['ads','porn','quic','malware','phishing','cryptominers'].forEach(function(b){ var e=document.getElementById('pr-block-'+b); if(e) pr['block'+b.charAt(0).toUpperCase()+b.slice(1)] = e.checked; });
+    const res = await _api({config:{presetRouting:pr}});
+    if (res && res.success) { _toast('Preset Routing saved', 'success'); if (res.config) _applyConfig(res.config); } else { _toast('Save failed: ' + (res.error || 'unknown'), 'error'); }
+  };
+  window.saveSanctionRules = async function(){
+    var sr = {};
+    ['chatgpt','google-ai','microsoft','oracle','docker','adobe','epic-games','intel','amd','nvidia','asus','hp','lenovo'].forEach(function(s){ var e=document.getElementById('sr-'+s); if(e) sr[s.replace(/-([a-z])/g, function(m,p){ return p.toUpperCase(); })] = e.checked; });
+    const res = await _api({config:{sanctionRules:sr}});
+    if (res && res.success) { _toast('Sanction Rules saved', 'success'); if (res.config) _applyConfig(res.config); } else { _toast('Save failed: ' + (res.error || 'unknown'), 'error'); }
+  };
+  window.saveCustomRules = async function(){
+    const res = await _api({config:{customBypassRules:document.getElementById('custom-bypass-rules').value||'',customBlockRules:document.getElementById('custom-block-rules').value||''}});
+    if (res && res.success) { _toast('Custom Rules saved', 'success'); if (res.config) _applyConfig(res.config); } else { _toast('Save failed: ' + (res.error || 'unknown'), 'error'); }
+  };
+  window.saveTlsMask = async function(){
+    const res = await _api({config:{tlsMask:{enabled:!!document.getElementById('tls-enabled').checked,fm:document.getElementById('tls-fm').value||'',cs:document.getElementById('tls-cs').value||'',sni:document.getElementById('tls-sni').value||'www.speedtest.net'}}});
+    if (res && res.success) { _toast('TLS Mask saved', 'success'); if (res.config) _applyConfig(res.config); } else { _toast('Save failed: ' + (res.error || 'unknown'), 'error'); }
+  };
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded', loadExtra); else loadExtra();
 })();
 </script>`;
                         function injectIntoForm(html, injection) {
@@ -2911,11 +2993,19 @@ async function handleConfigSync(request, env, ctx) {
                 success: true,
                 newRoute: nextConfig.apiRoute,
                 tagWarning,
+                config: (() => {
+                    const c = { ...nextConfig };
+                    [
+                        "cfAccountId", "cfApiToken", "cfWorkerName",
+                        "masterKey", "panelApiKeys"
+                    ].forEach(k => { c[k] = "[PROTECTED]"; });
+                    return c;
+                })(),
             }),
             { status: 200 },
         );
     } catch (e) {
-        return new Response(JSON.stringify({ success: false }), {
+        return new Response(JSON.stringify({ success: false, error: e.message }), {
             status: 400,
         });
     }
