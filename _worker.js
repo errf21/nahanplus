@@ -761,6 +761,18 @@ export default {
                             }
                             return html + injection;
                         }
+                        const mobileNavCss = `<style>
+.mobile-bottom-nav{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none;background:var(--color-surface);border-top:1px solid var(--color-border);box-shadow:0 -2px 16px rgba(0,0,0,0.06);position:fixed;left:0;right:0;bottom:0;z-index:9999;padding-bottom:env(safe-area-inset-bottom,0px)}
+.mobile-bottom-nav::-webkit-scrollbar{display:none}
+.mobile-tab-item{-webkit-tap-highlight-color:transparent;touch-action:manipulation;min-width:56px;color:var(--slate-400);transition:color 0.2s ease;padding:8px 4px;flex-shrink:0}
+.mobile-tab-item svg{transition:transform 0.2s ease}
+.mobile-tab-item.active{color:var(--color-primary)}
+.mobile-tab-item.active svg{transform:scale(1.15)}
+.mobile-save-bar{padding-bottom:calc(1rem + env(safe-area-inset-bottom,0px))}
+@media(max-width:768px){
+html body{padding-bottom:4rem;padding-bottom:calc(4rem + env(safe-area-inset-bottom,0px))}
+}</style>`;
+                        html = html.replace('</head>', mobileNavCss + '</head>');
                         html = injectIntoForm(html, extraSectionsHtml);
                         return new Response(html, {
                             headers: { "Content-Type": "text/html;charset=utf-8" },
