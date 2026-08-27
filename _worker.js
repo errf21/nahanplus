@@ -604,28 +604,36 @@ export default {
 })();
 </script>`;
                         function injectIntoForm(html, injection) {
-                            const formClose = html.lastIndexOf('</form>');
-                            if (formClose !== -1) {
-                                return html.substring(0, formClose) + injection + html.substring(formClose);
-                            }
-                            const formOpen = html.indexOf('<form');
-                            if (formOpen !== -1) {
-                                const afterForm = html.indexOf('>', formOpen);
-                                if (afterForm !== -1) {
-                                    const afterFormPlusOne = afterForm + 1;
-                                    const nextClose = html.indexOf('</', afterFormPlusOne);
-                                    if (nextClose !== -1) {
-                                        return html.substring(0, nextClose) + injection + html.substring(nextClose);
+                            const viewHelp = html.indexOf('id="view-help"');
+                            if (viewHelp !== -1) {
+                                let depth = 0;
+                                let scanFrom = html.lastIndexOf('<', viewHelp);
+                                for (let i = scanFrom; i < html.length; i++) {
+                                    if (html[i] === '<' && html[i+1] === '/') depth++;
+                                    if (depth === 1) {
+                                        const closeEnd = html.indexOf('>', i);
+                                        if (closeEnd !== -1) {
+                                            return html.substring(0, closeEnd + 1) + injection + html.substring(closeEnd + 1);
+                                        }
+                                        break;
                                     }
                                 }
                             }
-                            const anchors = ['id="settings"', 'id="config"', 'id="content"', 'id="main"', 'class="settings', 'class="config', 'class="content'];
-                            for (const anchor of anchors) {
-                                const idx = html.indexOf(anchor);
-                                if (idx !== -1) {
-                                    const tagClose = html.indexOf('>', idx);
-                                    if (tagClose !== -1) {
-                                        return html.substring(0, tagClose + 1) + injection + html.substring(tagClose + 1);
+                            const scrollContent = html.indexOf('scroll-content');
+                            if (scrollContent !== -1) {
+                                const tagStart = html.lastIndexOf('<', scrollContent);
+                                const tagEnd = html.indexOf('>', scrollContent);
+                                if (tagEnd !== -1) {
+                                    let depth = 0;
+                                    for (let i = tagEnd + 1; i < html.length; i++) {
+                                        if (html[i] === '<' && html[i+1] === '/') depth++;
+                                        if (depth === 1) {
+                                            const closeEnd = html.indexOf('>', i);
+                                            if (closeEnd !== -1) {
+                                                return html.substring(0, closeEnd + 1) + injection + html.substring(closeEnd + 1);
+                                            }
+                                            break;
+                                        }
                                     }
                                 }
                             }
