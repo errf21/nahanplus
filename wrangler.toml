@@ -15,7 +15,7 @@ port = 8787
 [[d1_databases]]
 binding = "IOT_DB"
 database_name = "nahan-db"
-database_id = "YOUR_D1_DATABASE_ID_HERE"
+database_id = "aa113b52-9eb2-43e6-8c77-4dcdc35d8fed"
 
 # Environment Variables & Secrets (Optional)
 # If you prefer to bind your Relay IP as an environment variable instead of using the panel settings:
