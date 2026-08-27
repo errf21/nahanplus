@@ -85,6 +85,24 @@ const SYSTEM_DEFAULTS = {
     },
     operatorPreset: "",
     routingRules: "",
+    presetRouting: {
+        bypassIran: false, bypassChina: false, bypassRussia: false,
+        blockAds: false, blockPorn: false, blockQuic: false,
+        blockMalware: false, blockPhishing: false, blockCryptominers: false,
+    },
+    sanctionRules: {
+        chatgpt: false, googleAi: false, microsoft: false, oracle: false,
+        docker: false, adobe: false, epicGames: false, intel: false,
+        amd: false, nvidia: false, asus: false, hp: false, lenovo: false,
+    },
+    customBypassRules: "",
+    customBlockRules: "",
+    tlsMask: {
+        enabled: false,
+        fm: "",
+        cs: "",
+        sni: "www.speedtest.net",
+    },
 };
 
 let sysConfig = { ...SYSTEM_DEFAULTS };
@@ -571,11 +589,147 @@ export default {
   </div>
   <button onclick="saveRouting()" class="mt-4 px-5 py-2.5 rounded-xl bg-primary text-white font-bold text-sm shadow-sm">Save Routing</button>
 </div>
+<div id="preset-routing-section" class="bg-[var(--color-surface)] p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-darkborder">
+  <h3 class="text-sm uppercase font-bold text-slate-500 tracking-wider mb-4">Preset Routing</h3>
+  <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">Bypass Iran</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-bypass-iran" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">Bypass China</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-bypass-china" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">Bypass Russia</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-bypass-russia" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">Block Ads</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-ads" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">Block Porn</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-porn" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">Block QUIC</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-quic" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">Block Malware</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-malware" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">Block Phishing</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-phishing" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">Block Cryptominers</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-cryptominers" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+  </div>
+  <button onclick="savePresetRouting()" class="mt-4 px-5 py-2.5 rounded-xl bg-primary text-white font-bold text-sm shadow-sm">Save Preset Routing</button>
+</div>
+<div id="sanction-rules-section" class="bg-[var(--color-surface)] p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-darkborder">
+  <h3 class="text-sm uppercase font-bold text-slate-500 tracking-wider mb-4">Anti-Sanction Rules</h3>
+  <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">ChatGPT</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-chatgpt" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">Google AI</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-google-ai" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">Microsoft</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-microsoft" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">Oracle</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-oracle" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">Docker</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-docker" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">Adobe</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-adobe" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">Epic Games</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-epic-games" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">Intel</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-intel" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">AMD</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-amd" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">NVIDIA</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-nvidia" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">ASUS</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-asus" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">HP</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-hp" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-xs font-semibold" style="color:var(--color-text);">Lenovo</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-lenovo" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+  </div>
+  <button onclick="saveSanctionRules()" class="mt-4 px-5 py-2.5 rounded-xl bg-primary text-white font-bold text-sm shadow-sm">Save Sanction Rules</button>
+</div>
+<div id="custom-rules-section" class="bg-[var(--color-surface)] p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-darkborder">
+  <h3 class="text-sm uppercase font-bold text-slate-500 tracking-wider mb-4">Custom Rules</h3>
+  <div class="space-y-4">
+    <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <label class="text-xs block mb-1.5 font-semibold text-slate-400">Custom Bypass Rules (one per line)</label>
+      <textarea id="custom-bypass-rules" rows="4" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-slate-800 focus:border-primary outline-none text-sm font-mono" style="resize:vertical;" placeholder="example.com&#10;192.168.0.0/16"></textarea>
+    </div>
+    <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <label class="text-xs block mb-1.5 font-semibold text-slate-400">Custom Block Rules (one per line)</label>
+      <textarea id="custom-block-rules" rows="4" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-slate-800 focus:border-primary outline-none text-sm font-mono" style="resize:vertical;" placeholder="ads.example.com&#10;tracker.example.net"></textarea>
+    </div>
+  </div>
+  <button onclick="saveCustomRules()" class="mt-4 px-5 py-2.5 rounded-xl bg-primary text-white font-bold text-sm shadow-sm">Save Custom Rules</button>
+</div>
+<div id="tls-mask-section" class="bg-[var(--color-surface)] p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-darkborder">
+  <h3 class="text-sm uppercase font-bold text-slate-500 tracking-wider mb-4">TLS Mask</h3>
+  <div class="space-y-4">
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-sm font-semibold" style="color:var(--color-text);">Enabled</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="tls-enabled" class="sr-only peer"><div class="w-11 h-6 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+    </div>
+    <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <label class="text-xs block mb-1.5 font-semibold text-slate-400">Fingerprint (fm)</label>
+      <input type="text" id="tls-fm" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-slate-800 focus:border-primary outline-none text-sm" placeholder="chrome">
+    </div>
+    <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <label class="text-xs block mb-1.5 font-semibold text-slate-400">Certificate SNI (cs)</label>
+      <input type="text" id="tls-cs" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-slate-800 focus:border-primary outline-none text-sm" placeholder="www.microsoft.com">
+    </div>
+    <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <label class="text-xs block mb-1.5 font-semibold text-slate-400">SNI</label>
+      <input type="text" id="tls-sni" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-slate-800 focus:border-primary outline-none text-sm" placeholder="www.speedtest.net">
+    </div>
+  </div>
+  <button onclick="saveTlsMask()" class="mt-4 px-5 py-2.5 rounded-xl bg-primary text-white font-bold text-sm shadow-sm">Save TLS Mask</button>
+</div>
 <script>
 (function(){
   const _token=()=>{try{return localStorage.getItem('nahan_token')||''}catch(e){return ''}};
   async function _api(body){const r=await fetch('/'+encodeURI(window.NAHAN_API_ROUTE||'sync')+'/api/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:_token(),...body})});return await r.json()}
-  async function loadExtra(){try{const r=await _api({});if(!r.success)return;const c=r.config||r;const f=c.fragment||{};const el=id=>document.getElementById(id);if(el('frag-enabled'))el('frag-enabled').checked=!!f.enabled;if(el('frag-packets'))el('frag-packets').value=f.packets||'tlshello';if(el('frag-len-min'))el('frag-len-min').value=f.lengthMin||50;if(el('frag-len-max'))el('frag-len-max').value=f.lengthMax||100;if(el('frag-slp-min'))el('frag-slp-min').value=f.sleepMin||50;if(el('frag-slp-max'))el('frag-slp-max').value=f.sleepMax||100;if(el('operator-preset'))el('operator-preset').value=c.operatorPreset||'';if(el('routing-rules'))el('routing-rules').value=c.routingRules||'';}catch(e){}}
+  async function loadExtra(){try{const r=await _api({});if(!r.success)return;const c=r.config||r;const f=c.fragment||{};const el=id=>document.getElementById(id);if(el('frag-enabled'))el('frag-enabled').checked=!!f.enabled;if(el('frag-packets'))el('frag-packets').value=f.packets||'tlshello';if(el('frag-len-min'))el('frag-len-min').value=f.lengthMin||50;if(el('frag-len-max'))el('frag-len-max').value=f.lengthMax||100;if(el('frag-slp-min'))el('frag-slp-min').value=f.sleepMin||50;if(el('frag-slp-max'))el('frag-slp-max').value=f.sleepMax||100;if(el('operator-preset'))el('operator-preset').value=c.operatorPreset||'';if(el('routing-rules'))el('routing-rules').value=c.routingRules||'';if(el('preset-routing'))el('preset-routing').value=c.presetRouting||'';if(el('sanction-rules'))el('sanction-rules').value=c.sanctionRules||'';if(el('custom-rules'))el('custom-rules').value=c.customRules||'';if(el('tls-mask'))el('tls-mask').value=c.tlsMask||'');}catch(e){}}
   window.saveFragment=async function(){await _api({config:{fragment:{enabled:document.getElementById('frag-enabled').checked,packets:document.getElementById('frag-packets').value,lengthMin:parseInt(document.getElementById('frag-len-min').value)||50,lengthMax:parseInt(document.getElementById('frag-len-max').value)||100,sleepMin:parseInt(document.getElementById('frag-slp-min').value)||50,sleepMax:parseInt(document.getElementById('frag-slp-max').value)||100}}});};
   window.saveOperator=async function(){await _api({config:{operatorPreset:document.getElementById('operator-preset').value}});};
   window.saveRouting=async function(){await _api({config:{routingRules:document.getElementById('routing-rules').value}});};
