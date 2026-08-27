@@ -33,6 +33,7 @@ const SYSTEM_DEFAULTS = {
     masterKey: "admin",
     metricNode: "time.is",
     cleanIps: "",
+    iranCleanIps: "",
     slaveNodes: "",
     deviceId: "",
     mode: "alpha",
@@ -2763,6 +2764,7 @@ const botI18n = {
         tg_direct: "Direct Configs",
         tg_nat64: "NAT64",
         tg_clean_ips: "Clean IPs",
+        tg_iran_clean_ips: "Iran Clean IPs",
         tg_nodes: "Nodes",
         tg_strategy: "Name Strategy",
         tg_prefix: "Name Prefix",
@@ -2909,6 +2911,7 @@ const botI18n = {
         tg_direct: "کانفیگ مستقیم",
         tg_nat64: "NAT64",
         tg_clean_ips: "آی‌پی تمیز",
+        tg_iran_clean_ips: "آی‌پی تمیز ایران",
         tg_nodes: "نودها",
         tg_strategy: "روش نام‌گذاری",
         tg_prefix: "پیشوند",
@@ -4458,6 +4461,10 @@ async function handleTelegramWebhook(request, env, hostName, ctx) {
                         ? sysConfig.cleanIps.substring(0, 40) +
                           (sysConfig.cleanIps.length > 40 ? "..." : "")
                         : "—";
+                    const iranCleanTxt = sysConfig.iranCleanIps
+                        ? sysConfig.iranCleanIps.substring(0, 40) +
+                          (sysConfig.iranCleanIps.length > 40 ? "..." : "")
+                        : "—";
                     const lpUrls = (sysConfig.linkedPanels || []).map(p => p.url).filter(Boolean);
                     const nodesTxt = lpUrls.length > 0
                         ? lpUrls.join(", ").substring(0, 40) +
@@ -4470,6 +4477,7 @@ async function handleTelegramWebhook(request, env, hostName, ctx) {
                         : "—";
                     let text = `🔧 **${t("tg_adv_settings")}**\n━━━━━━━━━━━━━━━━\n`;
                     text += `🧹 ${t("tg_clean_ips")}: \`${cleanTxt}\`\n`;
+                    text += `🇮🇷 ${t("tg_iran_clean_ips")}: \`${iranCleanTxt}\`\n`;
                     text += `🖥️ ${t("tg_nodes")}: \`${nodesTxt}\`\n`;
                     text += `📝 ${t("tg_strategy")}: \`${strategyTxt}\`\n`;
                     text += `🏷️ ${t("tg_prefix")}: \`${prefixTxt}\`\n`;
@@ -4481,6 +4489,12 @@ async function handleTelegramWebhook(request, env, hostName, ctx) {
                                 {
                                     text: `🧹 ${t("tg_clean_ips")}`,
                                     callback_data: "tg_edit_clean_ips",
+                                },
+                            ],
+                            [
+                                {
+                                    text: `🇮🇷 ${t("tg_iran_clean_ips")}`,
+                                    callback_data: "tg_edit_iran_clean_ips",
                                 },
                             ],
                             [
@@ -4822,6 +4836,30 @@ async function handleTelegramWebhook(request, env, hostName, ctx) {
                     await sendOrEdit(
                         chatId,
                         `🧹 **${t("tg_clean_ips")}**\n${t("tg_current_val")}: \`${sysConfig.cleanIps || "—"}\`\n\n${t("tg_new_val")}\n_send empty to clear_`,
+                        {
+                            inline_keyboard: [
+                                [
+                                    {
+                                        text: "❌ " + t("btn_cancel"),
+                                        callback_data: "tg_advanced_menu",
+                                    },
+                                ],
+                            ],
+                        },
+                        messageId,
+                    );
+                } else if (data === "tg_edit_iran_clean_ips") {
+                    tgState[chatId] = { step: "tg_edit_iran_clean_ips" };
+                    ctx?.waitUntil(
+                        d1Put(
+                            env,
+                            "tg_bot_state",
+                            JSON.stringify(tgState),
+                        ).catch(() => {}),
+                    );
+                    await sendOrEdit(
+                        chatId,
+                        `🇮🇷 **${t("tg_iran_clean_ips")}**\n${t("tg_current_val")}: \`${sysConfig.iranCleanIps || "—"}\`\n\n${t("tg_new_val")}\n_send empty to clear_`,
                         {
                             inline_keyboard: [
                                 [
@@ -5708,6 +5746,37 @@ async function handleTelegramWebhook(request, env, hostName, ctx) {
                         );
                         return new Response("OK", { status: 200 });
                     }
+                    if (state.step === "tg_edit_iran_clean_ips") {
+                        sysConfig.iranCleanIps = text || "";
+                        await cachedD1Put(
+                            env,
+                            "sys_config",
+                            JSON.stringify(sysConfig),
+                        );
+                        tgState[chatId] = null;
+                        ctx?.waitUntil(
+                            d1Put(
+                                env,
+                                "tg_bot_state",
+                                JSON.stringify(tgState),
+                            ).catch(() => {}),
+                        );
+                        await sendOrEdit(
+                            chatId,
+                            `✅ ${t("tg_iran_clean_ips")}: \`${text || "—"}\``,
+                            {
+                                inline_keyboard: [
+                                    [
+                                        {
+                                            text: "◀️ " + t("btn_back"),
+                                            callback_data: "tg_advanced_menu",
+                                        },
+                                    ],
+                                ],
+                            },
+                        );
+                        return new Response("OK", { status: 200 });
+                    }
                     if (state.step === "tg_edit_prefix") {
                         sysConfig.namePrefix = text;
                         await cachedD1Put(
@@ -6479,39 +6548,25 @@ function getFakeConfigNames(targetSub = null) {
         });
 }
 
-function getCleanIps(hostName, userCleanIps = null) {
-    let rawIps = userCleanIps || sysConfig.cleanIps;
-    let ips = rawIps
-        ? rawIps
-              .split(/[\r\n,;]+/)
-              .map((s) => {
-                  let t = s.trim();
-                  return t ? t.split("#")[0].trim() : "";
-              })
-              .filter(Boolean)
-        : [];
-    if (ips.length === 0)
-        ips = [
-            hostName.endsWith(".pages.dev") ? sysConfig.metricNode : hostName,
-        ];
-    return ips;
+function parseCleanIps(rawString) {
+    if (!rawString) return [];
+    return rawString
+        .split(/[\r\n,;]+/)
+        .map((s) => {
+            let t = s.trim();
+            if (!t) return null;
+            let parts = t.split("#");
+            let ip = parts[0].trim();
+            let name = (parts[1] || "").trim();
+            return ip ? { ip, name } : null;
+        })
+        .filter(Boolean);
 }
 
 function getCleanIpsWithNames(hostName, userCleanIps = null) {
-    let rawIps = userCleanIps || sysConfig.cleanIps;
-    let entries = rawIps
-        ? rawIps
-              .split(/[\r\n,;]+/)
-              .map((s) => {
-                  let t = s.trim();
-                  if (!t) return null;
-                  let parts = t.split("#");
-                  let ip = parts[0].trim();
-                  let name = (parts[1] || "").trim();
-                  return ip ? { ip, name } : null;
-              })
-              .filter(Boolean)
-        : [];
+    let primaryIps = userCleanIps || sysConfig.cleanIps;
+    let iranIps = userCleanIps ? null : (sysConfig.iranCleanIps || "");
+    let entries = [...parseCleanIps(primaryIps), ...parseCleanIps(iranIps)];
     if (entries.length === 0)
         entries = [
             {
@@ -6522,6 +6577,10 @@ function getCleanIpsWithNames(hostName, userCleanIps = null) {
             },
         ];
     return entries;
+}
+
+function getCleanIps(hostName, userCleanIps = null) {
+    return getCleanIpsWithNames(hostName, userCleanIps).map((e) => e.ip);
 }
 
 function getAllProfiles(targetSub = null) {

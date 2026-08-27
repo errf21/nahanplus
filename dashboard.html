@@ -907,11 +907,23 @@ html.dark select option {
 5.6.7.8#US
 9.10.11.12#France" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-slate-800 focus:border-primary focus:ring-1 outline-none font-mono text-sm resize-none"></textarea>
                                           <p class="text-xs text-slate-400 mt-2" data-i18n="desc_clean_ips">One IP per line. Use <code class="bg-slate-100 dark:bg-slate-800/80 px-1 py-0.5 rounded text-rose-500 font-mono">IP#Name</code> format to tag IPs (e.g. <code class="bg-slate-100 dark:bg-slate-800/80 px-1 py-0.5 rounded text-rose-500 font-mono">1.2.3.4#Germany</code>). Use <code class="bg-slate-100 dark:bg-slate-800/80 px-1 py-0.5 rounded text-rose-500 font-mono">{IP_NAME}</code> in name strategy.</p>
-                                          <button id="btn-resolve-smart-ips" onclick="resolveSmartCleanIps()" class="mt-3 w-full sm:w-auto px-4 py-2.5 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2">
-                                              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                              Auto-Resolve CDN &amp; Clean IPs
-                                          </button>
-                                      </div>
+                                           <button id="btn-resolve-smart-ips" onclick="resolveSmartCleanIps()" class="mt-3 w-full sm:w-auto px-4 py-2.5 bg-primary/10 hover:bg-primary/20 text-primary border border-primary/20 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2">
+                                               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                               Auto-Resolve CDN &amp; Clean IPs
+                                           </button>
+                                       </div>
+                                       <div>
+                                           <div class="flex items-center justify-between mb-2">
+                                               <label class="text-sm font-bold text-slate-600 dark:text-slate-300" data-i18n="lbl_iran_clean_ips">Iran Clean IPs</label>
+                                           </div>
+                                           <div class="flex gap-2 mb-2">
+                                               <input type="text" id="helper-iran-clean-ip" placeholder="1.2.3.4" class="flex-1 px-3 py-2 rounded-xl border border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-slate-800 focus:border-primary focus:ring-1 outline-none text-sm">
+                                               <input type="text" id="helper-iran-ip-name" placeholder="Name (Optional)" class="w-1/3 px-3 py-2 rounded-xl border border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-slate-800 focus:border-primary focus:ring-1 outline-none text-sm">
+                                               <button type="button" onclick="addHelperIpToTextarea('helper-iran-clean-ip', 'helper-iran-ip-name', 'cfg-iran-ips')" class="px-3 py-2 bg-primary text-white rounded-xl font-bold hover:bg-primary-hover transition-colors">+</button>
+                                           </div>
+                                           <textarea id="cfg-iran-ips" rows="3" data-i18n="ph_iran_clean_ips" placeholder="1.2.3.4#Germany&#10;5.6.7.8#US&#10;9.10.11.12#France" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-slate-800 focus:border-primary focus:ring-1 outline-none font-mono text-sm resize-none"></textarea>
+                                           <p class="text-xs text-slate-400 mt-2" data-i18n="desc_iran_clean_ips">Additional clean IPs merged specifically for non-customized profiles (e.g. Iranian users).</p>
+                                       </div>
                                       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                           <div class="space-y-1">
                                               <label class="block text-sm font-bold text-slate-600 dark:text-slate-300" data-i18n="lbl_fp">TLS Signature</label>
@@ -2027,7 +2039,8 @@ proxyip.cmliussss.net" class="w-full px-4 py-3 rounded-xl border border-slate-20
                   stat_ip: "Origin IP", stat_dc: "Edge Node", stat_loc: "Data Region",
                   lbl_proto: "Primary Display Mode", lbl_port: "Data Port", lbl_id: "Device UUID (Empty=Auto)",
                   lbl_path: "API Route (Hidden Path)", lbl_pass: "Master Key", lbl_fp: "TLS Signature", lbl_dns: "Resolver IP",
-                  lbl_clean_ips: "Clean IPs (Multi-Generator)", ph_clean_ips: "1.1.1.1, 2.2.2.2", desc_clean_ips: "Separate IPs by comma or new line. The Sync URL will multiply configs for all IPs.",
+                   lbl_clean_ips: "Clean IPs (Multi-Generator)", ph_clean_ips: "1.1.1.1, 2.2.2.2", desc_clean_ips: "Separate IPs by comma or new line. The Sync URL will multiply configs for all IPs.",
+                   lbl_iran_clean_ips: "Iran Clean IPs", ph_iran_clean_ips: "1.1.1.1, 2.2.2.2", desc_iran_clean_ips: "Additional clean IPs merged specifically for non-customized profiles (e.g. Iranian users).",
                   lbl_fake: "Maintenance Hosts (Camouflage)", lbl_relay: "Backup Relay IP", lbl_tfo: "TCP Fast Open", lbl_ech: "Secure Hello (ECH)",
                   lbl_fake_configs: "Subscription Fake Entries", desc_fake_configs: "Customize info entries shown in subscription profiles. Use {usage} and {expiry} for dynamic values.", btn_add_entry: "Add Entry",                   lbl_tg_token: "Telegram Bot Token", lbl_tg_chat: "Telegram Chat ID", lbl_tg_admin: "Authorized Telegram Admin ID", desc_tg_admin: "Only this Telegram User ID can manage the panel via bot. Leave empty to use Chat ID.", desc_tg_bot: "Set these values to receive login alerts via Telegram.",
                   lbl_cf_acc: "Cloudflare Account ID", lbl_cf_token: "Cloudflare API Token", desc_cf_api: "Optional: Monitor Worker daily usage limit (100k/day). Requires Account Analytics read permission.",
@@ -2128,7 +2141,8 @@ proxyip.cmliussss.net" class="w-full px-4 py-3 rounded-xl border border-slate-20
                   stat_ip: "آی‌پی مبدا", stat_dc: "گره لبه", stat_loc: "منطقه داده",
                   lbl_proto: "پروتکل نمایش مستقیم", lbl_port: "پورت داده", lbl_id: "شناسه یکتا (خالی=خودکار)",
                   lbl_path: "مسیر مخفی آی‌پی‌آی", lbl_pass: "کلید اصلی", lbl_fp: "امضای امنیتی", lbl_dns: "آی‌پی تحلیلگر",
-                  lbl_clean_ips: "آی‌پی‌های تمیز (مولد چندگانه)", ph_clean_ips: "1.1.1.1, 2.2.2.2", desc_clean_ips: "آی‌پی ها را با کاما یا خط جدید جدا کنید. لینک ساب برای همه ترکیب می‌سازد.",
+                   lbl_clean_ips: "آی‌پی‌های تمیز (مولد چندگانه)", ph_clean_ips: "1.1.1.1, 2.2.2.2", desc_clean_ips: "آی‌پی ها را با کاما یا خط جدید جدا کنید. لینک ساب برای همه ترکیب می‌سازد.",
+                   lbl_iran_clean_ips: "آی‌پی‌های تمیز ایران", ph_iran_clean_ips: "1.1.1.1, 2.2.2.2", desc_iran_clean_ips: "آی‌پی‌های تمیز اضافی که برای کاربران داخل ایران به لیست آی‌پی‌ها متصل می‌شوند.",
                   lbl_fake: "سایت‌های استتار (حالت مخفی)", lbl_relay: "آی‌پی جایگزین (کمکی)", lbl_tfo: "اتصال سریع", lbl_ech: "سلام امن",
                   lbl_fake_configs: "ورودی‌های اطلاعاتی اشتراک", desc_fake_configs: "متن نمایشی ورودی‌ها در پروفایل اشتراک را سفارشی کنید. از {usage} و {expiry} برای مقادیر پویا استفاده کنید.", btn_add_entry: "افزودن ورودی", lbl_tg_token: "توکن ربات تلگرام", lbl_tg_chat: "شناسه عددی تلگرام", lbl_tg_admin: "شناسه مدیر تلگرام", desc_tg_admin: "فقط این شناسه کاربری تلگرام می‌تواند پنل را از طریق ربات مدیریت کند. خالی بگذارید برای استفاده از شناسه چت.", desc_tg_bot: "با تنظیم این مقادیر، جزئیات ورود به پنل به تلگرام ارسال می‌شود.",
                   lbl_cf_acc: "شناسه اکانت ابری", lbl_cf_token: "توکن دسترسی کاربری", desc_cf_api: "اختیاری: برای نمایش میزان مصرف روزانه کارگر از صد هزار درخواست رایگان در پیام‌های تلگرام.",
@@ -2924,6 +2938,8 @@ proxyip.cmliussss.net" class="w-full px-4 py-3 rounded-xl border border-slate-20
                   let rawIps = document.getElementById('cfg-ips').value || "";
 
                   let ipsList = rawIps.replace(/,/g, '\n').replace(/;/g, '\n').split('\n').map(s=>s.trim()).filter(Boolean);
+                  let iranRawIps = (document.getElementById('cfg-iran-ips') && document.getElementById('cfg-iran-ips').value) || "";
+                  let iranIpsList = iranRawIps.replace(/,/g, '\n').replace(/;/g, '\n').split('\n').map(s=>s.trim()).filter(Boolean);
                   let finalIP = ipsList.length > 0 ? ipsList[0] : (hostName.endsWith('.pages.dev') ? 'time.is' : hostName);
 
                   let fp = document.getElementById('cfg-fp').value;
@@ -2941,7 +2957,8 @@ proxyip.cmliussss.net" class="w-full px-4 py-3 rounded-xl border border-slate-20
                   const qrEl = document.getElementById('qr-code');
                   if (qrEl) qrEl.src = "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=" + encodeURIComponent(rawLink);
 
-                  let totalIps = ipsList.length === 0 ? 1 : ipsList.length;
+                  let totalIps = ipsList.length + iranIpsList.length;
+                  if (totalIps === 0) totalIps = 1;
                   let tCfg = totalIps * 2;
                   document.getElementById('ip-count-badge').innerText = lang === 'fa' ? (tCfg + ' کانفیگ تولید شد') : (tCfg + ' Configs Active');
               } catch(e) { console.error(e); }
@@ -3083,7 +3100,7 @@ proxyip.cmliussss.net" class="w-full px-4 py-3 rounded-xl border border-slate-20
               const payload = {
                   mode: el('cfg-proto').value, socketPorts: Array.from(el('cfg-port').selectedOptions).map(o=>o.value).join(','), deviceId: el('cfg-uuid').value,
                   apiRoute: el('cfg-path').value, masterKey: el('cfg-pass').value, agent: el('cfg-fp').value,
-                   resolveIp: el('cfg-dns').value, customDns: el('cfg-custom-dns').value ? el('cfg-custom-dns').value : 'https://cloudflare-dns.com/dns-query', cleanIps: el('cfg-ips').value, maintenanceHost: el('cfg-fake') ? el('cfg-fake').value : '', backupRelay: el('cfg-relay').value, customRouting: el('cfg-custom-routing') ? el('cfg-custom-routing').value : '', upstreamUri: el('cfg-upstream') ? el('cfg-upstream').value.trim() : '', nat64Prefix: el('cfg-nat64') ? el('cfg-nat64').value : '', enableDirectConfigs: el('cfg-direct-configs') ? el('cfg-direct-configs').checked : false, syncApiKey: el('cf...ey') ? el('cfg-sync-api-key').value.trim() : '', autoUpdate: el('cfg-auto-update') ? el('cfg-auto-update').checked : false, autoUpdateFormat: document.querySelector('input[name="auto-update-format"]:checked')?.value || 'normal',
+                   resolveIp: el('cfg-dns').value, customDns: el('cfg-custom-dns').value ? el('cfg-custom-dns').value : 'https://cloudflare-dns.com/dns-query', cleanIps: el('cfg-ips').value, iranCleanIps: el('cfg-iran-ips').value, maintenanceHost: el('cfg-fake') ? el('cfg-fake').value : '', backupRelay: el('cfg-relay').value, customRouting: el('cfg-custom-routing') ? el('cfg-custom-routing').value : '', upstreamUri: el('cfg-upstream') ? el('cfg-upstream').value.trim() : '', nat64Prefix: el('cfg-nat64') ? el('cfg-nat64').value : '', enableDirectConfigs: el('cfg-direct-configs') ? el('cfg-direct-configs').checked : false, syncApiKey: el('cf...ey') ? el('cfg-sync-api-key').value.trim() : '', autoUpdate: el('cfg-auto-update') ? el('cfg-auto-update').checked : false, autoUpdateFormat: document.querySelector('input[name="auto-update-format"]:checked')?.value || 'normal',
                    enableOpt1: el('cfg-tfo').checked, enableOpt2: el('cfg-ech').checked,
                    tgToken: el('cfg-tg-token').value, tgChatId: el('cfg-tg-chat').value, tgAdminId: el('cfg-tg-admin').value,
                   cfAccountId: el('cfg-cf-acc').value, cfApiToken: el('cfg-cf-token').value,
@@ -3123,6 +3140,7 @@ proxyip.cmliussss.net" class="w-full px-4 py-3 rounded-xl border border-slate-20
                       mapId('cfg-dns', conf.resolveIp);
                       mapId('cfg-custom-dns', conf.customDns);
                       mapId('cfg-ips', conf.cleanIps);
+                      mapId('cfg-iran-ips', conf.iranCleanIps);
                       mapId('cfg-fake', conf.maintenanceHost);
                       mapId('cfg-relay', 'cfg-custom-routing', conf.backupRelay);
                       mapId('cfg-custom-routing', conf.customRouting);
@@ -3273,6 +3291,7 @@ proxyip.cmliussss.net" class="w-full px-4 py-3 rounded-xl border border-slate-20
                       document.getElementById('cfg-dns').value = conf.resolveIp || '';
                       document.getElementById('cfg-custom-dns').value = conf.customDns || 'https://cloudflare-dns.com/dns-query';
                       document.getElementById('cfg-ips').value = conf.cleanIps || '';
+                      if (document.getElementById('cfg-iran-ips')) document.getElementById('cfg-iran-ips').value = conf.iranCleanIps || '';
                       if(document.getElementById('cfg-custom-routing')) document.getElementById('cfg-custom-routing').value = conf.customRouting || '';
                       if(document.getElementById('cfg-upstream')) document.getElementById('cfg-upstream').value = conf.upstreamUri || '';
 
@@ -3319,7 +3338,7 @@ proxyip.cmliussss.net" class="w-full px-4 py-3 rounded-xl border border-slate-20
                       try { checkUpdate(); } catch(ue) { console.error(ue); }
                        if (!silent) switchTab('overview');
 
-                      ['cfg-proto','cfg-port','cfg-fp','cfg-ips','cfg-path', 'cfg-relay', 'cfg-custom-routing', 'cfg-name-strategy', 'cfg-name-prefix', 'cfg-sub-ua', 'cfg-custom-panel-url'].forEach(id => {
+                      ['cfg-proto','cfg-port','cfg-fp','cfg-ips','cfg-iran-ips','cfg-path', 'cfg-relay', 'cfg-custom-routing', 'cfg-name-strategy', 'cfg-name-prefix', 'cfg-sub-ua', 'cfg-custom-panel-url'].forEach(id => {
                           const el = document.getElementById(id);
                           if(el) { el.addEventListener('input', updateUI); el.addEventListener('change', updateUI); }
                       });
@@ -3414,7 +3433,7 @@ proxyip.cmliussss.net" class="w-full px-4 py-3 rounded-xl border border-slate-20
                   config: {
                       mode: el('cfg-proto').value, socketPorts: Array.from(el('cfg-port').selectedOptions).map(o=>o.value).join(','), deviceId: el('cfg-uuid').value,
                       apiRoute: el('cfg-path').value, masterKey: el('cfg-pass').value, agent: el('cfg-fp').value,
-                      resolveIp: el('cfg-dns').value, customDns: el('cfg-custom-dns') ? el('cfg-custom-dns').value : 'https://cloudflare-dns.com/dns-query', cleanIps: el('cfg-ips').value, maintenanceHost: el('cfg-fake') ? el('cfg-fake').value : '', backupRelay: el('cfg-relay').value, customRouting: el('cfg-custom-routing') ? el('cfg-custom-routing').value : '', upstreamUri: el('cfg-upstream') ? el('cfg-upstream').value.trim() : '', nat64Prefix: el('cfg-nat64') ? el('cfg-nat64').value : '', enableDirectConfigs: el('cfg-direct-configs') ? el('cfg-direct-configs').checked : false, syncApiKey: el('cfg-sync-api-key') ? el('cfg-sync-api-key').value.trim() : '', autoUpdate: el('cfg-auto-update') ? el('cfg-auto-update').checked : false, autoUpdateFormat: document.querySelector('input[name="auto-update-format"]:checked')?.value || 'normal',
+                      resolveIp: el('cfg-dns').value, customDns: el('cfg-custom-dns') ? el('cfg-custom-dns').value : 'https://cloudflare-dns.com/dns-query', cleanIps: el('cfg-ips').value, iranCleanIps: el('cfg-iran-ips') ? el('cfg-iran-ips').value : '', maintenanceHost: el('cfg-fake') ? el('cfg-fake').value : '', backupRelay: el('cfg-relay').value, customRouting: el('cfg-custom-routing') ? el('cfg-custom-routing').value : '', upstreamUri: el('cfg-upstream') ? el('cfg-upstream').value.trim() : '', nat64Prefix: el('cfg-nat64') ? el('cfg-nat64').value : '', enableDirectConfigs: el('cfg-direct-configs') ? el('cfg-direct-configs').checked : false, syncApiKey: el('cfg-sync-api-key') ? el('cfg-sync-api-key').value.trim() : '', autoUpdate: el('cfg-auto-update') ? el('cfg-auto-update').checked : false, autoUpdateFormat: document.querySelector('input[name="auto-update-format"]:checked')?.value || 'normal',
                                             enableOpt1: el('cfg-tfo').checked, enableOpt2: el('cfg-ech').checked,
                                             tgToken: el('cfg-tg-token').value, tgChatId: el('cfg-tg-chat').value, tgAdminId: el('cfg-tg-admin').value,
                                             cfAccountId: el('cfg-cf-acc').value, cfApiToken: el('cfg-cf-token').value,
