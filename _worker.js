@@ -727,7 +727,7 @@ export default {
 </div>
 <script>
 (function(){
-  const _token=()=>{try{return localStorage.getItem('nahan_token')||''}catch(e){return ''}};
+  const _token=()=>{try{return localStorage.getItem('nahan_session')?JSON.parse(localStorage.getItem('nahan_session')).key:''}catch(e){try{return localStorage.getItem('nahan_token')||''}catch(e2){return ''}}};
   function _toast(msg, type){
     try {
       const t = document.getElementById('toast') || document.getElementById('copy-toast');
