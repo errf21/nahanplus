@@ -543,7 +543,7 @@ export default {
   <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-sm font-semibold" style="color:var(--color-text);">Enabled</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="frag-enabled" class="sr-only peer"><div class="w-11 h-6 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="frag-enabled" class="peer"><span class="toggle-track-lg w-11 h-6 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <label class="text-xs block mb-1.5 font-semibold text-slate-400">Packets</label>
@@ -594,39 +594,39 @@ export default {
   <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">Bypass Iran</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-bypass-iran" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-bypass-iran" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">Bypass China</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-bypass-china" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-bypass-china" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">Bypass Russia</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-bypass-russia" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-bypass-russia" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">Block Ads</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-ads" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-ads" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">Block Porn</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-porn" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-porn" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">Block QUIC</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-quic" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-quic" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">Block Malware</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-malware" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-malware" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">Block Phishing</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-phishing" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-phishing" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">Block Cryptominers</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-cryptominers" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="pr-block-cryptominers" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
   </div>
   <button onclick="savePresetRouting()" class="mt-4 px-5 py-2.5 rounded-xl bg-primary text-white font-bold text-sm shadow-sm">Save Preset Routing</button>
@@ -636,55 +636,55 @@ export default {
   <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">ChatGPT</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-chatgpt" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-chatgpt" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">Google AI</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-google-ai" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-google-ai" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">Microsoft</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-microsoft" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-microsoft" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">Oracle</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-oracle" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-oracle" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">Docker</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-docker" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-docker" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">Adobe</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-adobe" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-adobe" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">Epic Games</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-epic-games" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-epic-games" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">Intel</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-intel" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-intel" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">AMD</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-amd" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-amd" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">NVIDIA</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-nvidia" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-nvidia" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">ASUS</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-asus" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-asus" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">HP</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-hp" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-hp" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-xs font-semibold" style="color:var(--color-text);">Lenovo</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-lenovo" class="sr-only peer"><div class="w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="sr-lenovo" class="peer"><span class="toggle-track w-9 h-5 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-blue-600"></span></label>
     </div>
   </div>
   <button onclick="saveSanctionRules()" class="mt-4 px-5 py-2.5 rounded-xl bg-primary text-white font-bold text-sm shadow-sm">Save Sanction Rules</button>
@@ -708,7 +708,7 @@ export default {
   <div class="space-y-4">
     <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <span class="text-sm font-semibold" style="color:var(--color-text);">Enabled</span>
-      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="tls-enabled" class="sr-only peer"><div class="w-11 h-6 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="tls-enabled" class="peer"><span class="toggle-track-lg w-11 h-6 rounded-full"></span></label>
     </div>
     <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
       <label class="text-xs block mb-1.5 font-semibold text-slate-400">Fingerprint (fm)</label>
@@ -729,10 +729,14 @@ export default {
 (function(){
   const _token=()=>{try{return localStorage.getItem('nahan_token')||''}catch(e){return ''}};
   async function _api(body){const r=await fetch('/'+encodeURI(window.NAHAN_API_ROUTE||'sync')+'/api/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:_token(),...body})});return await r.json()}
-  async function loadExtra(){try{const r=await _api({});if(!r.success)return;const c=r.config||r;const f=c.fragment||{};const el=id=>document.getElementById(id);if(el('frag-enabled'))el('frag-enabled').checked=!!f.enabled;if(el('frag-packets'))el('frag-packets').value=f.packets||'tlshello';if(el('frag-len-min'))el('frag-len-min').value=f.lengthMin||50;if(el('frag-len-max'))el('frag-len-max').value=f.lengthMax||100;if(el('frag-slp-min'))el('frag-slp-min').value=f.sleepMin||50;if(el('frag-slp-max'))el('frag-slp-max').value=f.sleepMax||100;if(el('operator-preset'))el('operator-preset').value=c.operatorPreset||'';if(el('routing-rules'))el('routing-rules').value=c.routingRules||'';if(el('preset-routing'))el('preset-routing').value=c.presetRouting||'';if(el('sanction-rules'))el('sanction-rules').value=c.sanctionRules||'';if(el('custom-rules'))el('custom-rules').value=c.customRules||'';if(el('tls-mask'))el('tls-mask').value=c.tlsMask||'');}catch(e){}}
-  window.saveFragment=async function(){await _api({config:{fragment:{enabled:document.getElementById('frag-enabled').checked,packets:document.getElementById('frag-packets').value,lengthMin:parseInt(document.getElementById('frag-len-min').value)||50,lengthMax:parseInt(document.getElementById('frag-len-max').value)||100,sleepMin:parseInt(document.getElementById('frag-slp-min').value)||50,sleepMax:parseInt(document.getElementById('frag-slp-max').value)||100}}});};
-  window.saveOperator=async function(){await _api({config:{operatorPreset:document.getElementById('operator-preset').value}});};
-  window.saveRouting=async function(){await _api({config:{routingRules:document.getElementById('routing-rules').value}});};
+  async function loadExtra(){try{const r=await _api({});if(!r.success)return;const c=r.config||r;const f=c.fragment||{};const el=id=>document.getElementById(id);if(el('frag-enabled'))el('frag-enabled').checked=!!f.enabled;if(el('frag-packets'))el('frag-packets').value=f.packets||'tlshello';if(el('frag-len-min'))el('frag-len-min').value=f.lengthMin||50;if(el('frag-len-max'))el('frag-len-max').value=f.lengthMax||100;if(el('frag-slp-min'))el('frag-slp-min').value=f.sleepMin||50;if(el('frag-slp-max'))el('frag-slp-max').value=f.sleepMax||100;if(el('operator-preset'))el('operator-preset').value=c.operatorPreset||'';if(el('routing-rules'))el('routing-rules').value=c.routingRules||'';var pr=c.presetRouting||{};['iran','china','russia'].forEach(function(r){var e=document.getElementById('pr-bypass-'+r);if(e){e.checked=!!pr['bypass'+r.charAt(0).toUpperCase()+r.slice(1)]}});['ads','porn','quic','malware','phishing','cryptominers'].forEach(function(b){var e=document.getElementById('pr-block-'+b);if(e){e.checked=!!pr['block'+b.charAt(0).toUpperCase()+b.slice(1)]}});var sr=c.sanctionRules||{};['chatgpt','google-ai','microsoft','oracle','docker','adobe','epic-games','intel','amd','nvidia','asus','hp','lenovo'].forEach(function(s){var e=document.getElementById('sr-'+s);if(e){e.checked=!!sr[s.replace(/-([a-z])/g,function(m,p){return p.toUpperCase()})]}});if(el('custom-bypass-rules'))el('custom-bypass-rules').value=c.customBypassRules||'';if(el('custom-block-rules'))el('custom-block-rules').value=c.customBlockRules||'';var tls=c.tlsMask||{};if(el('tls-enabled'))el('tls-enabled').checked=!!tls.enabled;if(el('tls-fm'))el('tls-fm').value=tls.fm||'';if(el('tls-cs'))el('tls-cs').value=tls.cs||'';if(el('tls-sni'))el('tls-sni').value=tls.sni||'www.speedtest.net'}catch(e){}}
+  window.saveFragment=async function(){await _api({config:{fragment:{enabled:!!document.getElementById('frag-enabled').checked,packets:document.getElementById('frag-packets').value,lengthMin:parseInt(document.getElementById('frag-len-min').value)||50,lengthMax:parseInt(document.getElementById('frag-len-max').value)||100,sleepMin:parseInt(document.getElementById('frag-slp-min').value)||50,sleepMax:parseInt(document.getElementById('frag-slp-max').value)||100}}})};
+  window.saveOperator=async function(){await _api({config:{operatorPreset:document.getElementById('operator-preset').value}})};
+  window.saveRouting=async function(){await _api({config:{routingRules:document.getElementById('routing-rules').value}})};
+  window.savePresetRouting=async function(){var pr={};['iran','china','russia'].forEach(function(r){var e=document.getElementById('pr-bypass-'+r);if(e)pr['bypass'+r.charAt(0).toUpperCase()+r.slice(1)]=e.checked});['ads','porn','quic','malware','phishing','cryptominers'].forEach(function(b){var e=document.getElementById('pr-block-'+b);if(e)pr['block'+b.charAt(0).toUpperCase()+b.slice(1)]=e.checked});await _api({config:{presetRouting:pr}})};
+  window.saveSanctionRules=async function(){var sr={};['chatgpt','google-ai','microsoft','oracle','docker','adobe','epic-games','intel','amd','nvidia','asus','hp','lenovo'].forEach(function(s){var e=document.getElementById('sr-'+s);if(e)sr[s.replace(/-([a-z])/g,function(m,p){return p.toUpperCase()})]=e.checked});await _api({config:{sanctionRules:sr}})};
+  window.saveCustomRules=async function(){await _api({config:{customBypassRules:document.getElementById('custom-bypass-rules').value||'',customBlockRules:document.getElementById('custom-block-rules').value||''}})};
+  window.saveTlsMask=async function(){await _api({config:{tlsMask:{enabled:!!document.getElementById('tls-enabled').checked,fm:document.getElementById('tls-fm').value||'',cs:document.getElementById('tls-cs').value||'',sni:document.getElementById('tls-sni').value||'www.speedtest.net'}}})};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',loadExtra);else loadExtra();
 })();
 </script>`;
@@ -771,7 +775,25 @@ export default {
 .mobile-save-bar{padding-bottom:calc(1rem + env(safe-area-inset-bottom,0px))}
 @media(max-width:768px){
 html body{padding-bottom:4rem;padding-bottom:calc(4rem + env(safe-area-inset-bottom,0px))}
-}</style>`;
+}
+.toggle-track,.toggle-track-lg{position:relative;cursor:pointer;background:var(--color-border);transition:background-color 0.2s ease}
+.toggle-track{width:36px;height:20px;border-radius:9999px}
+.toggle-track-lg{width:44px;height:24px;border-radius:9999px}
+input[type=checkbox].peer:checked~.toggle-track,input[type=checkbox].peer:checked~.toggle-track-lg{background:var(--color-primary)}
+.toggle-track::after,.toggle-track-lg::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:9999px;background:#fff;transition:transform 0.2s ease;box-shadow:0 1px 2px rgba(0,0,0,0.2)}
+.toggle-track-lg::after{width:20px;height:20px}
+input[type=checkbox].peer:checked~.toggle-track::after{transform:translateX(16px)}
+input[type=checkbox].peer:checked~.toggle-track-lg::after{transform:translateX(20px)}
+input[type=checkbox].peer{position:absolute;opacity:0;width:0;height:0;pointer-events:none;margin:0}
+.toggle-row{position:relative;display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:12px;background:rgba(148,163,184,0.1);cursor:pointer;gap:8px}
+.toggle-row:active{background:rgba(148,163,184,0.18)}
+.toggle-row input[type=checkbox].peer{position:absolute;opacity:0;width:100%;height:100%;left:0;top:0;pointer-events:auto;margin:0;cursor:pointer}
+.toggle-row>span{position:relative;z-index:1;pointer-events:none}
+.toggle-row>label{position:relative;z-index:0}
+.save-btn{cursor:pointer;transition:transform 0.1s ease,box-shadow 0.2s ease}
+.save-btn:hover{filter:brightness(1.1)}
+.save-btn:active{transform:scale(0.97)}
+</style>`;
                         const fullMobileNav = `<nav class="md:hidden w-full mobile-bottom-nav" style="height:calc(4rem + env(safe-area-inset-bottom, 0px));padding-bottom:env(safe-area-inset-bottom, 0px);">
 <button onclick="switchTab('overview')" id="mob-tab-overview" class="mobile-tab-item mobile-nav-item active flex flex-col items-center justify-center h-full text-slate-400">
 <svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
