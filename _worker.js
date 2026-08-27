@@ -520,131 +520,73 @@ export default {
                             html = html.replace('__HAS_DB_WARNING__', '<div class="mb-5 p-4 rounded-2xl flex items-start gap-3" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);"><span style="color:#f87171;">&#9888;&#65039;</span><span class="text-sm" style="color:#fca5a5;" data-i18n="missing_db">Database not connected. Settings won\'t be saved.</span></div>');
                         }
                         const extraSectionsHtml = `
-<div id="view-new" class="hidden space-y-6">
-  <div id="fragment-section" class="bg-[var(--color-surface)] p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-darkborder">
-    <h3 class="text-sm uppercase font-bold text-slate-500 tracking-wider mb-4" style="color:var(--color-text);">🧩 Fragment</h3>
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <div class="flex items-center justify-between p-3 rounded-xl" style="background:rgba(255,255,255,0.03);">
-        <span class="text-sm" style="color:var(--color-text);">Enabled</span>
-        <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="frag-enabled" class="sr-only peer"><div class="w-11 h-6 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" style="background:var(--border);"></div></label>
-      </div>
-      <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
-        <label class="text-xs block mb-1.5" style="color:var(--color-text-muted);">Packets</label>
-        <select id="frag-packets" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--color-bg-alt);border:1px solid var(--color-border);color:var(--text);">
-          <option value="tlshello">tlshello</option>
-          <option value="tls">tls</option>
-          <option value="http">http</option>
-        </select>
-      </div>
-      <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
-        <label class="text-xs block mb-1.5" style="color:var(--color-text-muted);">Length (min-max)</label>
-        <div class="flex gap-2"><input type="number" id="frag-len-min" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--color-bg-alt);border:1px solid var(--color-border);color:var(--text);" placeholder="50"><input type="number" id="frag-len-max" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--color-bg-alt);border:1px solid var(--color-border);color:var(--text);" placeholder="100"></div>
-      </div>
-      <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
-        <label class="text-xs block mb-1.5" style="color:var(--color-text-muted);">Sleep (min-max)</label>
-        <div class="flex gap-2"><input type="number" id="frag-slp-min" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--color-bg-alt);border:1px solid var(--color-border);color:var(--text);" placeholder="50"><input type="number" id="frag-slp-max" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--color-bg-alt);border:1px solid var(--color-border);color:var(--text);" placeholder="100"></div>
-      </div>
+<div id="fragment-section" class="bg-[var(--color-surface)] p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-darkborder">
+  <h3 class="text-sm uppercase font-bold text-slate-500 tracking-wider mb-4">Fragment</h3>
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+    <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <span class="text-sm font-semibold" style="color:var(--color-text);">Enabled</span>
+      <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="frag-enabled" class="sr-only peer"><div class="w-11 h-6 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" style="background:var(--color-border);"></div></label>
     </div>
-    <button onclick="saveFragment()" class="mt-4 px-4 py-2 rounded-lg text-sm font-bold text-white" style="background:var(--color-primary);color:#fff;">Save Fragment</button>
-  </div>
-  <div id="operator-section" class="bg-[var(--color-surface)] p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-darkborder">
-    <h3 class="text-sm uppercase font-bold text-slate-500 tracking-wider mb-4" style="color:var(--color-text);">📡 Operator Preset</h3>
     <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
-      <label class="text-xs block mb-1.5" style="color:var(--color-text-muted);">Preset</label>
-      <select id="operator-preset" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--color-bg-alt);border:1px solid var(--color-border);color:var(--text);">
-        <option value="">None</option>
-        <option value="mci">MCI (Hamrahe Aval)</option>
-        <option value="irancell">Irancell</option>
-        <option value="rightel">Rightel</option>
-        <option value="shatel">Shatel</option>
-        <option value="mkb">MKb (MCI Business)</option>
-        <option value="amo">AME (Atomic)</option>
+      <label class="text-xs block mb-1.5 font-semibold text-slate-400">Packets</label>
+      <select id="frag-packets" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-slate-800 focus:border-primary outline-none">
+        <option value="tlshello">tlshello</option>
+        <option value="tls">tls</option>
+        <option value="http">http</option>
       </select>
     </div>
-    <button onclick="saveOperator()" class="mt-4 px-4 py-2 rounded-lg text-sm font-bold text-white" style="background:var(--color-primary);color:#fff;">Save Operator</button>
-  </div>
-  <div id="routing-section" class="bg-[var(--color-surface)] p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-darkborder">
-    <h3 class="text-sm uppercase font-bold text-slate-500 tracking-wider mb-4" style="color:var(--color-text);">🔀 Routing Rules</h3>
     <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
-      <label class="text-xs block mb-1.5" style="color:var(--color-text-muted);">Custom Rules (one per line)</label>
-      <textarea id="routing-rules" rows="5" class="w-full text-sm rounded-lg px-3 py-2 font-mono" style="background:var(--color-bg-alt);border:1px solid var(--color-border);color:var(--text);resize:vertical;" placeholder="example.com&#10;192.168.0.0/16&#10;geoip:ir&#10;geosite:ir"></textarea>
-      <p class="text-xs mt-1.5" style="color:var(--color-text-muted);">Supports: domain, IP/CIDR, geoip:XX, geosite:XX</p>
+      <label class="text-xs block mb-1.5 font-semibold text-slate-400">Length (min-max)</label>
+      <div class="flex gap-2"><input type="number" id="frag-len-min" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-slate-800 focus:border-primary outline-none text-sm" placeholder="50"><input type="number" id="frag-len-max" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-slate-800 focus:border-primary outline-none text-sm" placeholder="100"></div>
     </div>
-    <button onclick="saveRouting()" class="mt-4 px-4 py-2 rounded-lg text-sm font-bold text-white" style="background:var(--color-primary);color:#fff;">Save Routing</button>
+    <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <label class="text-xs block mb-1.5 font-semibold text-slate-400">Sleep (min-max)</label>
+      <div class="flex gap-2"><input type="number" id="frag-slp-min" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-slate-800 focus:border-primary outline-none text-sm" placeholder="50"><input type="number" id="frag-slp-max" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-slate-800 focus:border-primary outline-none text-sm" placeholder="100"></div>
+    </div>
   </div>
+  <button onclick="saveFragment()" class="mt-4 px-5 py-2.5 rounded-xl bg-primary text-white font-bold text-sm shadow-sm">Save Fragment</button>
+</div>
+<div id="operator-section" class="bg-[var(--color-surface)] p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-darkborder">
+  <h3 class="text-sm uppercase font-bold text-slate-500 tracking-wider mb-4">Operator Preset</h3>
+  <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+    <label class="text-xs block mb-1.5 font-semibold text-slate-400">Preset</label>
+    <select id="operator-preset" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-slate-800 focus:border-primary outline-none">
+      <option value="">None</option>
+      <option value="mci">MCI (Hamrahe Aval)</option>
+      <option value="irancell">Irancell</option>
+      <option value="rightel">Rightel</option>
+      <option value="shatel">Shatel</option>
+      <option value="mkb">MKb (MCI Business)</option>
+      <option value="amo">AME (Atomic)</option>
+    </select>
+  </div>
+  <button onclick="saveOperator()" class="mt-4 px-5 py-2.5 rounded-xl bg-primary text-white font-bold text-sm shadow-sm">Save Operator</button>
+</div>
+<div id="routing-section" class="bg-[var(--color-surface)] p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-darkborder">
+  <h3 class="text-sm uppercase font-bold text-slate-500 tracking-wider mb-4">Routing Rules</h3>
+  <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+    <label class="text-xs block mb-1.5 font-semibold text-slate-400">Custom Rules (one per line)</label>
+    <textarea id="routing-rules" rows="5" class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-darkborder bg-slate-50 dark:bg-slate-800 focus:border-primary outline-none text-sm font-mono" style="resize:vertical;" placeholder="example.com&#10;192.168.0.0/16&#10;geoip:ir&#10;geosite:ir"></textarea>
+    <p class="text-xs mt-1.5 text-slate-400">Supports: domain, IP/CIDR, geoip:XX, geosite:XX</p>
+  </div>
+  <button onclick="saveRouting()" class="mt-4 px-5 py-2.5 rounded-xl bg-primary text-white font-bold text-sm shadow-sm">Save Routing</button>
 </div>
 <script>
 (function(){
   const _token=()=>{try{return localStorage.getItem('nahan_token')||''}catch(e){return ''}};
   async function _api(body){const r=await fetch('/'+encodeURI(window.NAHAN_API_ROUTE||'sync')+'/api/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:_token(),...body})});return await r.json()}
-  function injectTab(){
-    const newTabBtn=document.createElement('button');
-    newTabBtn.setAttribute('onclick',"switchTab('new')");
-    newTabBtn.id='tab-new';
-    newTabBtn.className='nav-item';
-    newTabBtn.innerHTML='🆕 <span data-i18n="tab_new">جدید</span>';
-    const sidebar=document.querySelector('aside nav');
-    if(sidebar){const helpBtn=sidebar.querySelector('#tab-help');if(helpBtn)sidebar.insertBefore(newTabBtn,helpBtn);else sidebar.appendChild(newTabBtn);}
-    const mobTabBtn=document.createElement('button');
-    mobTabBtn.setAttribute('onclick',"switchTab('new')");
-    mobTabBtn.id='mob-tab-new';
-    mobTabBtn.className='mobile-tab-item mobile-nav-item';
-    mobTabBtn.innerHTML='<svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg><span class="text-[10px] font-bold">جدید</span>';
-    const mobNav=document.querySelector('nav.md\\\\:hidden');
-    if(!mobNav){const allNavs=document.querySelectorAll('nav');for(const n of allNavs){if(n.classList.contains('md:hidden')||n.className.includes('mobile')){n.appendChild(mobTabBtn);break;}}}
-    else{mobNav.appendChild(mobTabBtn);}
-    const viewTitle=document.getElementById('view-title');
-    if(viewTitle){
-      const origSwitch=window.switchTab;
-      if(typeof origSwitch==='function'){
-        window.switchTab=function(name){
-          origSwitch(name);
-          const viewNew=document.getElementById('view-new');
-          if(viewNew){
-            if(name==='new'){
-              viewNew.classList.remove('hidden');viewNew.classList.add('block','fade-in');
-              var sc=document.querySelector('.scroll-content');
-              if(sc){sc.scrollTop=0;}
-            }else{
-              viewNew.classList.add('hidden');viewNew.classList.remove('block','fade-in');
-            }
-          }
-          if(name==='new')viewTitle.textContent='جدید';
-          var deskBtn=document.getElementById('tab-new');
-          var mobBtn=document.getElementById('mob-tab-new');
-          if(deskBtn){name==='new'?deskBtn.classList.add('active'):deskBtn.classList.remove('active');}
-          if(mobBtn){name==='new'?mobBtn.classList.add('active'):mobBtn.classList.remove('active');}
-        };
-      }
-    }
-  }
   async function loadExtra(){try{const r=await _api({});if(!r.success)return;const c=r.config||r;const f=c.fragment||{};const el=id=>document.getElementById(id);if(el('frag-enabled'))el('frag-enabled').checked=!!f.enabled;if(el('frag-packets'))el('frag-packets').value=f.packets||'tlshello';if(el('frag-len-min'))el('frag-len-min').value=f.lengthMin||50;if(el('frag-len-max'))el('frag-len-max').value=f.lengthMax||100;if(el('frag-slp-min'))el('frag-slp-min').value=f.sleepMin||50;if(el('frag-slp-max'))el('frag-slp-max').value=f.sleepMax||100;if(el('operator-preset'))el('operator-preset').value=c.operatorPreset||'';if(el('routing-rules'))el('routing-rules').value=c.routingRules||'';}catch(e){}}
   window.saveFragment=async function(){await _api({config:{fragment:{enabled:document.getElementById('frag-enabled').checked,packets:document.getElementById('frag-packets').value,lengthMin:parseInt(document.getElementById('frag-len-min').value)||50,lengthMax:parseInt(document.getElementById('frag-len-max').value)||100,sleepMin:parseInt(document.getElementById('frag-slp-min').value)||50,sleepMax:parseInt(document.getElementById('frag-slp-max').value)||100}}});};
   window.saveOperator=async function(){await _api({config:{operatorPreset:document.getElementById('operator-preset').value}});};
   window.saveRouting=async function(){await _api({config:{routingRules:document.getElementById('routing-rules').value}});};
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{injectTab();loadExtra();});else{injectTab();loadExtra();}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',loadExtra);else loadExtra();
 })();
 </script>`;
                         function injectIntoForm(html, injection) {
-                            const viewHelp = html.indexOf('id="view-help"');
-                            if (viewHelp !== -1) {
-                                let depth = 0;
-                                let scanFrom = html.lastIndexOf('<', viewHelp);
-                                for (let i = scanFrom; i < html.length; i++) {
-                                    if (html[i] === '<' && html[i+1] === '/') depth++;
-                                    if (depth === 1) {
-                                        const closeEnd = html.indexOf('>', i);
-                                        if (closeEnd !== -1) {
-                                            return html.substring(0, closeEnd + 1) + injection + html.substring(closeEnd + 1);
-                                        }
-                                        break;
-                                    }
-                                }
-                            }
-                            const scrollContent = html.indexOf('scroll-content');
-                            if (scrollContent !== -1) {
-                                const tagStart = html.lastIndexOf('<', scrollContent);
-                                const tagEnd = html.indexOf('>', scrollContent);
+                            const settingsId = html.indexOf('id="view-settings"');
+                            if (settingsId !== -1) {
+                                const tagStart = html.lastIndexOf('<', settingsId);
+                                const tagEnd = html.indexOf('>', settingsId);
                                 if (tagEnd !== -1) {
                                     let depth = 0;
                                     for (let i = tagEnd + 1; i < html.length; i++) {
@@ -652,7 +594,7 @@ export default {
                                         if (depth === 1) {
                                             const closeEnd = html.indexOf('>', i);
                                             if (closeEnd !== -1) {
-                                                return html.substring(0, closeEnd + 1) + injection + html.substring(closeEnd + 1);
+                                                return html.substring(0, closeEnd) + '\n' + injection + '\n' + html.substring(closeEnd);
                                             }
                                             break;
                                         }
