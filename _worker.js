@@ -520,8 +520,8 @@ export default {
                             html = html.replace('__HAS_DB_WARNING__', '<div class="mb-5 p-4 rounded-2xl flex items-start gap-3" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);"><span style="color:#f87171;">&#9888;&#65039;</span><span class="text-sm" style="color:#fca5a5;" data-i18n="missing_db">Database not connected. Settings won\'t be saved.</span></div>');
                         }
                         const extraSectionsHtml = `
-<div id="nahan-extra-sections" style="margin-top:1.5rem;">
-  <div id="fragment-section" class="mb-5 p-5 rounded-2xl" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
+<div id="view-new" class="hidden space-y-6">
+  <div id="fragment-section" class="p-5 rounded-2xl" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
     <h3 class="text-base font-semibold mb-4 flex items-center gap-2" style="color:var(--text);">🧩 Fragment</h3>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div class="flex items-center justify-between p-3 rounded-xl" style="background:rgba(255,255,255,0.03);">
@@ -547,7 +547,7 @@ export default {
     </div>
     <button onclick="saveFragment()" class="mt-4 px-4 py-2 rounded-lg text-sm font-medium" style="background:var(--accent);color:#fff;">Save Fragment</button>
   </div>
-  <div id="operator-section" class="mb-5 p-5 rounded-2xl" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
+  <div id="operator-section" class="p-5 rounded-2xl" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
     <h3 class="text-base font-semibold mb-4 flex items-center gap-2" style="color:var(--text);">📡 Operator Preset</h3>
     <div class="p-3 rounded-xl" style="background:rgba(255,255,255,0.03);">
       <label class="text-xs block mb-1.5" style="color:var(--muted);">Preset</label>
@@ -563,7 +563,7 @@ export default {
     </div>
     <button onclick="saveOperator()" class="mt-4 px-4 py-2 rounded-lg text-sm font-medium" style="background:var(--accent);color:#fff;">Save Operator</button>
   </div>
-  <div id="routing-section" class="mb-5 p-5 rounded-2xl" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
+  <div id="routing-section" class="p-5 rounded-2xl" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
     <h3 class="text-base font-semibold mb-4 flex items-center gap-2" style="color:var(--text);">🔀 Routing Rules</h3>
     <div class="p-3 rounded-xl" style="background:rgba(255,255,255,0.03);">
       <label class="text-xs block mb-1.5" style="color:var(--muted);">Custom Rules (one per line)</label>
@@ -577,11 +577,30 @@ export default {
 (function(){
   const _token=()=>{try{return localStorage.getItem('nahan_token')||''}catch(e){return ''}};
   async function _api(body){const r=await fetch('/'+encodeURI(window.NAHAN_API_ROUTE||'sync')+'/api/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:_token(),...body})});return await r.json()}
-  async function loadExtra(){try{const r=await _api({});if(!r.success)return;const c=r.config||r;const f=c.fragment||{};document.getElementById('frag-enabled').checked=!!f.enabled;document.getElementById('frag-packets').value=f.packets||'tlshello';document.getElementById('frag-len-min').value=f.lengthMin||50;document.getElementById('frag-len-max').value=f.lengthMax||100;document.getElementById('frag-slp-min').value=f.sleepMin||50;document.getElementById('frag-slp-max').value=f.sleepMax||100;document.getElementById('operator-preset').value=c.operatorPreset||'';document.getElementById('routing-rules').value=c.routingRules||'';}catch(e){}}
+  function injectTab(){
+    const newTabBtn=document.createElement('button');
+    newTabBtn.setAttribute('onclick',"switchTab('new')");
+    newTabBtn.id='tab-new';
+    newTabBtn.className='nav-item';
+    newTabBtn.innerHTML='🆕 <span data-i18n="tab_new">جدید</span>';
+    const sidebar=document.querySelector('aside nav');
+    if(sidebar){const helpBtn=sidebar.querySelector('#tab-help');if(helpBtn)sidebar.insertBefore(newTabBtn,helpBtn);else sidebar.appendChild(newTabBtn);}
+    const mobTabBtn=document.createElement('button');
+    mobTabBtn.setAttribute('onclick',"switchTab('new')");
+    mobTabBtn.id='mob-tab-new';
+    mobTabBtn.className='mobile-tab-item mobile-nav-item';
+    mobTabBtn.innerHTML='<svg class="w-6 h-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/></svg><span class="text-[10px] font-bold">جدید</span>';
+    const mobNav=document.querySelector('nav.md\\\\:hidden');
+    if(!mobNav){const allNavs=document.querySelectorAll('nav');for(const n of allNavs){if(n.classList.contains('md:hidden')||n.className.includes('mobile')){n.appendChild(mobTabBtn);break;}}}
+    else{mobNav.appendChild(mobTabBtn);}
+    const viewTitle=document.getElementById('view-title');
+    if(viewTitle){const origSwitch=window.switchTab;if(typeof origSwitch==='function'){window.switchTab=function(name){origSwitch(name);if(name==='new')viewTitle.textContent='جدید';};}}
+  }
+  async function loadExtra(){try{const r=await _api({});if(!r.success)return;const c=r.config||r;const f=c.fragment||{};const el=id=>document.getElementById(id);if(el('frag-enabled'))el('frag-enabled').checked=!!f.enabled;if(el('frag-packets'))el('frag-packets').value=f.packets||'tlshello';if(el('frag-len-min'))el('frag-len-min').value=f.lengthMin||50;if(el('frag-len-max'))el('frag-len-max').value=f.lengthMax||100;if(el('frag-slp-min'))el('frag-slp-min').value=f.sleepMin||50;if(el('frag-slp-max'))el('frag-slp-max').value=f.sleepMax||100;if(el('operator-preset'))el('operator-preset').value=c.operatorPreset||'';if(el('routing-rules'))el('routing-rules').value=c.routingRules||'';}catch(e){}}
   window.saveFragment=async function(){await _api({config:{fragment:{enabled:document.getElementById('frag-enabled').checked,packets:document.getElementById('frag-packets').value,lengthMin:parseInt(document.getElementById('frag-len-min').value)||50,lengthMax:parseInt(document.getElementById('frag-len-max').value)||100,sleepMin:parseInt(document.getElementById('frag-slp-min').value)||50,sleepMax:parseInt(document.getElementById('frag-slp-max').value)||100}}});};
   window.saveOperator=async function(){await _api({config:{operatorPreset:document.getElementById('operator-preset').value}});};
   window.saveRouting=async function(){await _api({config:{routingRules:document.getElementById('routing-rules').value}});};
-  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',loadExtra);else loadExtra();
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',()=>{injectTab();loadExtra();});else{injectTab();loadExtra();}
 })();
 </script>`;
                         function injectIntoForm(html, injection) {
