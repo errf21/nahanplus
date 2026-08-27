@@ -521,37 +521,37 @@ export default {
                         }
                         const extraSectionsHtml = `
 <div id="view-new" class="hidden space-y-6">
-  <div id="fragment-section" class="p-5 rounded-2xl" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
-    <h3 class="text-base font-semibold mb-4 flex items-center gap-2" style="color:var(--text);">🧩 Fragment</h3>
+  <div id="fragment-section" class="bg-[var(--color-surface)] p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-darkborder">
+    <h3 class="text-sm uppercase font-bold text-slate-500 tracking-wider mb-4" style="color:var(--color-text);">🧩 Fragment</h3>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div class="flex items-center justify-between p-3 rounded-xl" style="background:rgba(255,255,255,0.03);">
-        <span class="text-sm" style="color:var(--text);">Enabled</span>
+        <span class="text-sm" style="color:var(--color-text);">Enabled</span>
         <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="frag-enabled" class="sr-only peer"><div class="w-11 h-6 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" style="background:var(--border);"></div></label>
       </div>
-      <div class="p-3 rounded-xl" style="background:rgba(255,255,255,0.03);">
-        <label class="text-xs block mb-1.5" style="color:var(--muted);">Packets</label>
-        <select id="frag-packets" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--card);border:1px solid var(--border);color:var(--text);">
+      <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+        <label class="text-xs block mb-1.5" style="color:var(--color-text-muted);">Packets</label>
+        <select id="frag-packets" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--color-bg-alt);border:1px solid var(--color-border);color:var(--text);">
           <option value="tlshello">tlshello</option>
           <option value="tls">tls</option>
           <option value="http">http</option>
         </select>
       </div>
-      <div class="p-3 rounded-xl" style="background:rgba(255,255,255,0.03);">
-        <label class="text-xs block mb-1.5" style="color:var(--muted);">Length (min-max)</label>
-        <div class="flex gap-2"><input type="number" id="frag-len-min" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--card);border:1px solid var(--border);color:var(--text);" placeholder="50"><input type="number" id="frag-len-max" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--card);border:1px solid var(--border);color:var(--text);" placeholder="100"></div>
+      <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+        <label class="text-xs block mb-1.5" style="color:var(--color-text-muted);">Length (min-max)</label>
+        <div class="flex gap-2"><input type="number" id="frag-len-min" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--color-bg-alt);border:1px solid var(--color-border);color:var(--text);" placeholder="50"><input type="number" id="frag-len-max" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--color-bg-alt);border:1px solid var(--color-border);color:var(--text);" placeholder="100"></div>
       </div>
-      <div class="p-3 rounded-xl" style="background:rgba(255,255,255,0.03);">
-        <label class="text-xs block mb-1.5" style="color:var(--muted);">Sleep (min-max)</label>
-        <div class="flex gap-2"><input type="number" id="frag-slp-min" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--card);border:1px solid var(--border);color:var(--text);" placeholder="50"><input type="number" id="frag-slp-max" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--card);border:1px solid var(--border);color:var(--text);" placeholder="100"></div>
+      <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+        <label class="text-xs block mb-1.5" style="color:var(--color-text-muted);">Sleep (min-max)</label>
+        <div class="flex gap-2"><input type="number" id="frag-slp-min" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--color-bg-alt);border:1px solid var(--color-border);color:var(--text);" placeholder="50"><input type="number" id="frag-slp-max" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--color-bg-alt);border:1px solid var(--color-border);color:var(--text);" placeholder="100"></div>
       </div>
     </div>
-    <button onclick="saveFragment()" class="mt-4 px-4 py-2 rounded-lg text-sm font-medium" style="background:var(--accent);color:#fff;">Save Fragment</button>
+    <button onclick="saveFragment()" class="mt-4 px-4 py-2 rounded-lg text-sm font-bold text-white" style="background:var(--color-primary);color:#fff;">Save Fragment</button>
   </div>
-  <div id="operator-section" class="p-5 rounded-2xl" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
-    <h3 class="text-base font-semibold mb-4 flex items-center gap-2" style="color:var(--text);">📡 Operator Preset</h3>
-    <div class="p-3 rounded-xl" style="background:rgba(255,255,255,0.03);">
-      <label class="text-xs block mb-1.5" style="color:var(--muted);">Preset</label>
-      <select id="operator-preset" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--card);border:1px solid var(--border);color:var(--text);">
+  <div id="operator-section" class="bg-[var(--color-surface)] p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-darkborder">
+    <h3 class="text-sm uppercase font-bold text-slate-500 tracking-wider mb-4" style="color:var(--color-text);">📡 Operator Preset</h3>
+    <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <label class="text-xs block mb-1.5" style="color:var(--color-text-muted);">Preset</label>
+      <select id="operator-preset" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--color-bg-alt);border:1px solid var(--color-border);color:var(--text);">
         <option value="">None</option>
         <option value="mci">MCI (Hamrahe Aval)</option>
         <option value="irancell">Irancell</option>
@@ -561,16 +561,16 @@ export default {
         <option value="amo">AME (Atomic)</option>
       </select>
     </div>
-    <button onclick="saveOperator()" class="mt-4 px-4 py-2 rounded-lg text-sm font-medium" style="background:var(--accent);color:#fff;">Save Operator</button>
+    <button onclick="saveOperator()" class="mt-4 px-4 py-2 rounded-lg text-sm font-bold text-white" style="background:var(--color-primary);color:#fff;">Save Operator</button>
   </div>
-  <div id="routing-section" class="p-5 rounded-2xl" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
-    <h3 class="text-base font-semibold mb-4 flex items-center gap-2" style="color:var(--text);">🔀 Routing Rules</h3>
-    <div class="p-3 rounded-xl" style="background:rgba(255,255,255,0.03);">
-      <label class="text-xs block mb-1.5" style="color:var(--muted);">Custom Rules (one per line)</label>
-      <textarea id="routing-rules" rows="5" class="w-full text-sm rounded-lg px-3 py-2 font-mono" style="background:var(--card);border:1px solid var(--border);color:var(--text);resize:vertical;" placeholder="example.com&#10;192.168.0.0/16&#10;geoip:ir&#10;geosite:ir"></textarea>
-      <p class="text-xs mt-1.5" style="color:var(--muted);">Supports: domain, IP/CIDR, geoip:XX, geosite:XX</p>
+  <div id="routing-section" class="bg-[var(--color-surface)] p-5 rounded-3xl shadow-sm border border-slate-200 dark:border-darkborder">
+    <h3 class="text-sm uppercase font-bold text-slate-500 tracking-wider mb-4" style="color:var(--color-text);">🔀 Routing Rules</h3>
+    <div class="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50">
+      <label class="text-xs block mb-1.5" style="color:var(--color-text-muted);">Custom Rules (one per line)</label>
+      <textarea id="routing-rules" rows="5" class="w-full text-sm rounded-lg px-3 py-2 font-mono" style="background:var(--color-bg-alt);border:1px solid var(--color-border);color:var(--text);resize:vertical;" placeholder="example.com&#10;192.168.0.0/16&#10;geoip:ir&#10;geosite:ir"></textarea>
+      <p class="text-xs mt-1.5" style="color:var(--color-text-muted);">Supports: domain, IP/CIDR, geoip:XX, geosite:XX</p>
     </div>
-    <button onclick="saveRouting()" class="mt-4 px-4 py-2 rounded-lg text-sm font-medium" style="background:var(--accent);color:#fff;">Save Routing</button>
+    <button onclick="saveRouting()" class="mt-4 px-4 py-2 rounded-lg text-sm font-bold text-white" style="background:var(--color-primary);color:#fff;">Save Routing</button>
   </div>
 </div>
 <script>
@@ -594,7 +594,29 @@ export default {
     if(!mobNav){const allNavs=document.querySelectorAll('nav');for(const n of allNavs){if(n.classList.contains('md:hidden')||n.className.includes('mobile')){n.appendChild(mobTabBtn);break;}}}
     else{mobNav.appendChild(mobTabBtn);}
     const viewTitle=document.getElementById('view-title');
-    if(viewTitle){const origSwitch=window.switchTab;if(typeof origSwitch==='function'){window.switchTab=function(name){origSwitch(name);if(name==='new')viewTitle.textContent='جدید';};}}
+    if(viewTitle){
+      const origSwitch=window.switchTab;
+      if(typeof origSwitch==='function'){
+        window.switchTab=function(name){
+          origSwitch(name);
+          const viewNew=document.getElementById('view-new');
+          if(viewNew){
+            if(name==='new'){
+              viewNew.classList.remove('hidden');viewNew.classList.add('block','fade-in');
+              var sc=document.querySelector('.scroll-content');
+              if(sc){sc.scrollTop=0;}
+            }else{
+              viewNew.classList.add('hidden');viewNew.classList.remove('block','fade-in');
+            }
+          }
+          if(name==='new')viewTitle.textContent='جدید';
+          var deskBtn=document.getElementById('tab-new');
+          var mobBtn=document.getElementById('mob-tab-new');
+          if(deskBtn){name==='new'?deskBtn.classList.add('active'):deskBtn.classList.remove('active');}
+          if(mobBtn){name==='new'?mobBtn.classList.add('active'):mobBtn.classList.remove('active');}
+        };
+      }
+    }
   }
   async function loadExtra(){try{const r=await _api({});if(!r.success)return;const c=r.config||r;const f=c.fragment||{};const el=id=>document.getElementById(id);if(el('frag-enabled'))el('frag-enabled').checked=!!f.enabled;if(el('frag-packets'))el('frag-packets').value=f.packets||'tlshello';if(el('frag-len-min'))el('frag-len-min').value=f.lengthMin||50;if(el('frag-len-max'))el('frag-len-max').value=f.lengthMax||100;if(el('frag-slp-min'))el('frag-slp-min').value=f.sleepMin||50;if(el('frag-slp-max'))el('frag-slp-max').value=f.sleepMax||100;if(el('operator-preset'))el('operator-preset').value=c.operatorPreset||'';if(el('routing-rules'))el('routing-rules').value=c.routingRules||'';}catch(e){}}
   window.saveFragment=async function(){await _api({config:{fragment:{enabled:document.getElementById('frag-enabled').checked,packets:document.getElementById('frag-packets').value,lengthMin:parseInt(document.getElementById('frag-len-min').value)||50,lengthMax:parseInt(document.getElementById('frag-len-max').value)||100,sleepMin:parseInt(document.getElementById('frag-slp-min').value)||50,sleepMax:parseInt(document.getElementById('frag-slp-max').value)||100}}});};
