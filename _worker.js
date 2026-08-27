@@ -575,21 +575,48 @@ export default {
 </div>
 <script>
 (function(){
-  const _fetch=window.fetch;const _token=()=>{try{return localStorage.getItem('nahan_token')||''}catch(e){return ''}};
-  async function _api(method,body){const r=await _fetch('/'+encodeURI(window.NAHAN_API_ROUTE||'sync')+'/api/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:_token(),...body})});return await r.json()}
-  async function loadExtra(){try{const r=await _api('POST',{});if(!r.success)return;const c=r.config||r;const f=c.fragment||{};document.getElementById('frag-enabled').checked=!!f.enabled;document.getElementById('frag-packets').value=f.packets||'tlshello';document.getElementById('frag-len-min').value=f.lengthMin||50;document.getElementById('frag-len-max').value=f.lengthMax||100;document.getElementById('frag-slp-min').value=f.sleepMin||50;document.getElementById('frag-slp-max').value=f.sleepMax||100;document.getElementById('operator-preset').value=c.operatorPreset||'';document.getElementById('routing-rules').value=c.routingRules||'';}catch(e){}}
-  window.saveFragment=async function(){const cfg={fragment:{enabled:document.getElementById('frag-enabled').checked,packets:document.getElementById('frag-packets').value,lengthMin:parseInt(document.getElementById('frag-len-min').value)||50,lengthMax:parseInt(document.getElementById('frag-len-max').value)||100,sleepMin:parseInt(document.getElementById('frag-slp-min').value)||50,sleepMax:parseInt(document.getElementById('frag-slp-max').value)||100}};await _api('POST',{config:cfg});};
-  window.saveOperator=async function(){await _api('POST',{config:{operatorPreset:document.getElementById('operator-preset').value}});};
-  window.saveRouting=async function(){await _api('POST',{config:{routingRules:document.getElementById('routing-rules').value}});};
+  const _token=()=>{try{return localStorage.getItem('nahan_token')||''}catch(e){return ''}};
+  async function _api(body){const r=await fetch('/'+encodeURI(window.NAHAN_API_ROUTE||'sync')+'/api/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:_token(),...body})});return await r.json()}
+  async function loadExtra(){try{const r=await _api({});if(!r.success)return;const c=r.config||r;const f=c.fragment||{};document.getElementById('frag-enabled').checked=!!f.enabled;document.getElementById('frag-packets').value=f.packets||'tlshello';document.getElementById('frag-len-min').value=f.lengthMin||50;document.getElementById('frag-len-max').value=f.lengthMax||100;document.getElementById('frag-slp-min').value=f.sleepMin||50;document.getElementById('frag-slp-max').value=f.sleepMax||100;document.getElementById('operator-preset').value=c.operatorPreset||'';document.getElementById('routing-rules').value=c.routingRules||'';}catch(e){}}
+  window.saveFragment=async function(){await _api({config:{fragment:{enabled:document.getElementById('frag-enabled').checked,packets:document.getElementById('frag-packets').value,lengthMin:parseInt(document.getElementById('frag-len-min').value)||50,lengthMax:parseInt(document.getElementById('frag-len-max').value)||100,sleepMin:parseInt(document.getElementById('frag-slp-min').value)||50,sleepMax:parseInt(document.getElementById('frag-slp-max').value)||100}}});};
+  window.saveOperator=async function(){await _api({config:{operatorPreset:document.getElementById('operator-preset').value}});};
+  window.saveRouting=async function(){await _api({config:{routingRules:document.getElementById('routing-rules').value}});};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',loadExtra);else loadExtra();
 })();
 </script>`;
-                        const bodyClose = html.indexOf('</body>');
-                        if (bodyClose !== -1) {
-                            html = html.substring(0, bodyClose) + extraSectionsHtml + html.substring(bodyClose);
-                        } else {
-                            html += extraSectionsHtml;
+                        function injectIntoForm(html, injection) {
+                            const formClose = html.lastIndexOf('</form>');
+                            if (formClose !== -1) {
+                                return html.substring(0, formClose) + injection + html.substring(formClose);
+                            }
+                            const formOpen = html.indexOf('<form');
+                            if (formOpen !== -1) {
+                                const afterForm = html.indexOf('>', formOpen);
+                                if (afterForm !== -1) {
+                                    const afterFormPlusOne = afterForm + 1;
+                                    const nextClose = html.indexOf('</', afterFormPlusOne);
+                                    if (nextClose !== -1) {
+                                        return html.substring(0, nextClose) + injection + html.substring(nextClose);
+                                    }
+                                }
+                            }
+                            const anchors = ['id="settings"', 'id="config"', 'id="content"', 'id="main"', 'class="settings', 'class="config', 'class="content'];
+                            for (const anchor of anchors) {
+                                const idx = html.indexOf(anchor);
+                                if (idx !== -1) {
+                                    const tagClose = html.indexOf('>', idx);
+                                    if (tagClose !== -1) {
+                                        return html.substring(0, tagClose + 1) + injection + html.substring(tagClose + 1);
+                                    }
+                                }
+                            }
+                            const bodyClose = html.indexOf('</body>');
+                            if (bodyClose !== -1) {
+                                return html.substring(0, bodyClose) + injection + html.substring(bodyClose);
+                            }
+                            return html + injection;
                         }
+                        html = injectIntoForm(html, extraSectionsHtml);
                         return new Response(html, {
                             headers: { "Content-Type": "text/html;charset=utf-8" },
                         });
