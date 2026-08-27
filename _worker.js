@@ -75,6 +75,16 @@ const SYSTEM_DEFAULTS = {
         { name: "📊 {usage}", enabled: true },
         { name: "📅 {expiry}", enabled: true },
     ],
+    fragment: {
+        enabled: false,
+        lengthMin: 50,
+        lengthMax: 100,
+        sleepMin: 50,
+        sleepMax: 100,
+        packets: "tlshello",
+    },
+    operatorPreset: "",
+    routingRules: "",
 };
 
 let sysConfig = { ...SYSTEM_DEFAULTS };
@@ -2795,6 +2805,15 @@ const botI18n = {
         tg_conns: "Active Connections",
         tg_version: "Version",
         tg_cf_usage: "CF Usage",
+        tg_fragment: "Fragment",
+        tg_fragment_enabled: "Fragment Enabled",
+        tg_fragment_length: "Fragment Length",
+        tg_fragment_sleep: "Fragment Sleep",
+        tg_fragment_packets: "Fragment Packets",
+        tg_operator_preset: "Operator Preset",
+        tg_routing_rules: "Routing Rules",
+        tg_sub_links: "Subscription Links",
+        tg_upstream_uri: "Upstream URI",
     },
     fa: {
         welcome:
@@ -2942,6 +2961,15 @@ const botI18n = {
         tg_conns: "اتصالات فعال",
         tg_version: "نسخه",
         tg_cf_usage: "مصرف کلودفلر",
+        tg_fragment: "فرگمنت",
+        tg_fragment_enabled: "فعال‌سازی فرگمنت",
+        tg_fragment_length: "طول فرگمنت",
+        tg_fragment_sleep: "خواب فرگمنت",
+        tg_fragment_packets: "پکت‌های فرگمنت",
+        tg_operator_preset: "پیش‌تنظیم اپراتور",
+        tg_routing_rules: "قوانین مسیریابی",
+        tg_sub_links: "لینک‌های اشتراک",
+        tg_upstream_uri: "آدرس upstream",
     },
 };
 
@@ -4533,6 +4561,12 @@ async function handleTelegramWebhook(request, env, hostName, ctx) {
                             ],
                             [
                                 {
+                                    text: `🌐 ${t("tg_network")}`,
+                                    callback_data: "tg_network_menu",
+                                },
+                            ],
+                            [
+                                {
                                     text: t("btn_main_menu"),
                                     callback_data: "main_menu",
                                 },
@@ -5088,6 +5122,151 @@ async function handleTelegramWebhook(request, env, hostName, ctx) {
                                 ],
                             ],
                         },
+                        messageId,
+                    );
+                } else if (data === "tg_network_menu") {
+                    const fragTxt = sysConfig.fragment?.enabled ? "✅ ON" : "❌ OFF";
+                    const fragLen = sysConfig.fragment ? `${sysConfig.fragment.lengthMin || 50}-${sysConfig.fragment.lengthMax || 100}` : "50-100";
+                    const fragSleep = sysConfig.fragment ? `${sysConfig.fragment.sleepMin || 50}-${sysConfig.fragment.sleepMax || 100}` : "50-100";
+                    const fragPkt = sysConfig.fragment?.packets || "tlshello";
+                    const opTxt = sysConfig.operatorPreset || "—";
+                    const routeTxt = sysConfig.routingRules ? sysConfig.routingRules.substring(0, 40) + (sysConfig.routingRules.length > 40 ? "..." : "") : "—";
+                    const upstreamTxt = sysConfig.upstreamUri ? sysConfig.upstreamUri.substring(0, 30) + "..." : "—";
+                    let text = `🌐 **${t("tg_network")}**\n━━━━━━━━━━━━━━━━\n`;
+                    text += `🧩 ${t("tg_fragment")}: ${fragTxt}\n`;
+                    text += `📏 ${t("tg_fragment_length")}: \`${fragLen}\`\n`;
+                    text += `😴 ${t("tg_fragment_sleep")}: \`${fragSleep}\`\n`;
+                    text += `📦 ${t("tg_fragment_packets")}: \`${fragPkt}\`\n`;
+                    text += `📡 ${t("tg_operator_preset")}: \`${opTxt}\`\n`;
+                    text += `🔀 ${t("tg_routing_rules")}: \`${routeTxt}\`\n`;
+                    text += `⬆️ ${t("tg_upstream_uri")}: \`${upstreamTxt}\`\n`;
+                    text += `━━━━━━━━━━━━━━━━`;
+                    const kb = {
+                        inline_keyboard: [
+                            [
+                                {
+                                    text: `🧩 ${t("tg_fragment")}`,
+                                    callback_data: "tg_toggle_fragment",
+                                },
+                            ],
+                            [
+                                {
+                                    text: `📏 ${t("tg_fragment_length")}`,
+                                    callback_data: "tg_edit_fragment_length",
+                                },
+                                {
+                                    text: `😴 ${t("tg_fragment_sleep")}`,
+                                    callback_data: "tg_edit_fragment_sleep",
+                                },
+                            ],
+                            [
+                                {
+                                    text: `📦 ${t("tg_fragment_packets")}`,
+                                    callback_data: "tg_edit_fragment_packets",
+                                },
+                            ],
+                            [
+                                {
+                                    text: `📡 ${t("tg_operator_preset")}`,
+                                    callback_data: "tg_edit_operator",
+                                },
+                            ],
+                            [
+                                {
+                                    text: `🔀 ${t("tg_routing_rules")}`,
+                                    callback_data: "tg_edit_routing",
+                                },
+                            ],
+                            [
+                                {
+                                    text: `⬆️ ${t("tg_upstream_uri")}`,
+                                    callback_data: "tg_edit_upstream",
+                                },
+                            ],
+                            [
+                                {
+                                    text: "◀️ " + t("btn_back"),
+                                    callback_data: "tg_advanced_menu",
+                                },
+                            ],
+                        ],
+                    };
+                    await sendOrEdit(chatId, text, kb, messageId);
+                } else if (data === "tg_toggle_fragment") {
+                    if (!sysConfig.fragment) sysConfig.fragment = { enabled: false, lengthMin: 50, lengthMax: 100, sleepMin: 50, sleepMax: 100, packets: "tlshello" };
+                    sysConfig.fragment.enabled = !sysConfig.fragment.enabled;
+                    await cachedD1Put(env, "sys_config", JSON.stringify(sysConfig));
+                    answerText = t("tg_saved");
+                    const menu = getMainMenu(getActivePanel(), isAuthorized);
+                    await sendOrEdit(chatId, menu.text, menu.kb, messageId);
+                } else if (data === "tg_edit_fragment_length") {
+                    tgState[chatId] = { step: "tg_edit_fragment_length" };
+                    ctx?.waitUntil(d1Put(env, "tg_bot_state", JSON.stringify(tgState)).catch(() => {}));
+                    await sendOrEdit(
+                        chatId,
+                        `📏 **${t("tg_fragment_length")}**\n${t("tg_current_val")}: \`${sysConfig.fragment?.lengthMin || 50}-${sysConfig.fragment?.lengthMax || 100}\`\n\n${t("tg_new_val")}\n_format: min-max e.g. 50-100_`,
+                        { inline_keyboard: [[{ text: "❌ " + t("btn_cancel"), callback_data: "tg_network_menu" }]] },
+                        messageId,
+                    );
+                } else if (data === "tg_edit_fragment_sleep") {
+                    tgState[chatId] = { step: "tg_edit_fragment_sleep" };
+                    ctx?.waitUntil(d1Put(env, "tg_bot_state", JSON.stringify(tgState)).catch(() => {}));
+                    await sendOrEdit(
+                        chatId,
+                        `😴 **${t("tg_fragment_sleep")}**\n${t("tg_current_val")}: \`${sysConfig.fragment?.sleepMin || 50}-${sysConfig.fragment?.sleepMax || 100}\`\n\n${t("tg_new_val")}\n_format: min-max e.g. 50-100_`,
+                        { inline_keyboard: [[{ text: "❌ " + t("btn_cancel"), callback_data: "tg_network_menu" }]] },
+                        messageId,
+                    );
+                } else if (data === "tg_edit_fragment_packets") {
+                    tgState[chatId] = { step: "tg_edit_fragment_packets" };
+                    ctx?.waitUntil(d1Put(env, "tg_bot_state", JSON.stringify(tgState)).catch(() => {}));
+                    const kb = {
+                        inline_keyboard: [
+                            [{ text: "tlshello", callback_data: "tg_set_frag_pkt:tlshello" }],
+                            [{ text: "tls", callback_data: "tg_set_frag_pkt:tls" }],
+                            [{ text: "http", callback_data: "tg_set_frag_pkt:http" }],
+                            [{ text: "❌ " + t("btn_cancel"), callback_data: "tg_network_menu" }],
+                        ],
+                    };
+                    await sendOrEdit(
+                        chatId,
+                        `📦 **${t("tg_fragment_packets")}**\n${t("tg_current_val")}: \`${sysConfig.fragment?.packets || "tlshello"}\`\n\n${t("tg_new_val")}`,
+                        kb,
+                        messageId,
+                    );
+                } else if (data.startsWith("tg_set_frag_pkt:")) {
+                    const val = data.replace("tg_set_frag_pkt:", "");
+                    if (!sysConfig.fragment) sysConfig.fragment = { enabled: false, lengthMin: 50, lengthMax: 100, sleepMin: 50, sleepMax: 100, packets: "tlshello" };
+                    sysConfig.fragment.packets = val;
+                    await cachedD1Put(env, "sys_config", JSON.stringify(sysConfig));
+                    tgState[chatId] = null;
+                    answerText = t("tg_saved");
+                    await sendOrEdit(chatId, `✅ ${t("tg_fragment_packets")}: **${val}**`, { inline_keyboard: [[{ text: "◀️ " + t("btn_back"), callback_data: "tg_network_menu" }]] }, messageId);
+                } else if (data === "tg_edit_operator") {
+                    tgState[chatId] = { step: "tg_edit_operator" };
+                    ctx?.waitUntil(d1Put(env, "tg_bot_state", JSON.stringify(tgState)).catch(() => {}));
+                    await sendOrEdit(
+                        chatId,
+                        `📡 **${t("tg_operator_preset")}**\n${t("tg_current_val")}: \`${sysConfig.operatorPreset || "—"}\`\n\n${t("tg_new_val")}\n_send empty to clear_\n_options: mci, irancell, rightel, shatel, _`,
+                        { inline_keyboard: [[{ text: "❌ " + t("btn_cancel"), callback_data: "tg_network_menu" }]] },
+                        messageId,
+                    );
+                } else if (data === "tg_edit_routing") {
+                    tgState[chatId] = { step: "tg_edit_routing" };
+                    ctx?.waitUntil(d1Put(env, "tg_bot_state", JSON.stringify(tgState)).catch(() => {}));
+                    await sendOrEdit(
+                        chatId,
+                        `🔀 **${t("tg_routing_rules")}**\n${t("tg_current_val")}: \`${sysConfig.routingRules || "—"}\`\n\n${t("tg_new_val")}\n_send empty to clear_\n_one per line, supports: domain, ip, geoip:XX, geosite:XX_`,
+                        { inline_keyboard: [[{ text: "❌ " + t("btn_cancel"), callback_data: "tg_network_menu" }]] },
+                        messageId,
+                    );
+                } else if (data === "tg_edit_upstream") {
+                    tgState[chatId] = { step: "tg_edit_upstream" };
+                    ctx?.waitUntil(d1Put(env, "tg_bot_state", JSON.stringify(tgState)).catch(() => {}));
+                    await sendOrEdit(
+                        chatId,
+                        `⬆️ **${t("tg_upstream_uri")}**\n${t("tg_current_val")}: \`${sysConfig.upstreamUri ? sysConfig.upstreamUri.substring(0, 40) + "..." : "—"}\`\n\n${t("tg_new_val")}\n_send empty to clear_`,
+                        { inline_keyboard: [[{ text: "❌ " + t("btn_cancel"), callback_data: "tg_network_menu" }]] },
                         messageId,
                     );
                 }
@@ -6034,6 +6213,65 @@ async function handleTelegramWebhook(request, env, hostName, ctx) {
                                 ],
                             },
                         );
+                        return new Response("OK", { status: 200 });
+                    }
+                    if (state.step === "tg_edit_fragment_length") {
+                        const parts = text.split("-").map(Number);
+                        if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+                            if (!sysConfig.fragment) sysConfig.fragment = { enabled: false, lengthMin: 50, lengthMax: 100, sleepMin: 50, sleepMax: 100, packets: "tlshello" };
+                            sysConfig.fragment.lengthMin = parts[0];
+                            sysConfig.fragment.lengthMax = parts[1];
+                            await cachedD1Put(env, "sys_config", JSON.stringify(sysConfig));
+                        }
+                        tgState[chatId] = null;
+                        ctx?.waitUntil(d1Put(env, "tg_bot_state", JSON.stringify(tgState)).catch(() => {}));
+                        await sendOrEdit(chatId, `✅ ${t("tg_fragment_length")}: \`${text}\``, { inline_keyboard: [[{ text: "◀️ " + t("btn_back"), callback_data: "tg_network_menu" }]] });
+                        return new Response("OK", { status: 200 });
+                    }
+                    if (state.step === "tg_edit_fragment_sleep") {
+                        const parts = text.split("-").map(Number);
+                        if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+                            if (!sysConfig.fragment) sysConfig.fragment = { enabled: false, lengthMin: 50, lengthMax: 100, sleepMin: 50, sleepMax: 100, packets: "tlshello" };
+                            sysConfig.fragment.sleepMin = parts[0];
+                            sysConfig.fragment.sleepMax = parts[1];
+                            await cachedD1Put(env, "sys_config", JSON.stringify(sysConfig));
+                        }
+                        tgState[chatId] = null;
+                        ctx?.waitUntil(d1Put(env, "tg_bot_state", JSON.stringify(tgState)).catch(() => {}));
+                        await sendOrEdit(chatId, `✅ ${t("tg_fragment_sleep")}: \`${text}\``, { inline_keyboard: [[{ text: "◀️ " + t("btn_back"), callback_data: "tg_network_menu" }]] });
+                        return new Response("OK", { status: 200 });
+                    }
+                    if (state.step === "tg_edit_fragment_packets") {
+                        if (!sysConfig.fragment) sysConfig.fragment = { enabled: false, lengthMin: 50, lengthMax: 100, sleepMin: 50, sleepMax: 100, packets: "tlshello" };
+                        sysConfig.fragment.packets = text;
+                        await cachedD1Put(env, "sys_config", JSON.stringify(sysConfig));
+                        tgState[chatId] = null;
+                        ctx?.waitUntil(d1Put(env, "tg_bot_state", JSON.stringify(tgState)).catch(() => {}));
+                        await sendOrEdit(chatId, `✅ ${t("tg_fragment_packets")}: \`${text}\``, { inline_keyboard: [[{ text: "◀️ " + t("btn_back"), callback_data: "tg_network_menu" }]] });
+                        return new Response("OK", { status: 200 });
+                    }
+                    if (state.step === "tg_edit_operator") {
+                        sysConfig.operatorPreset = text || "";
+                        await cachedD1Put(env, "sys_config", JSON.stringify(sysConfig));
+                        tgState[chatId] = null;
+                        ctx?.waitUntil(d1Put(env, "tg_bot_state", JSON.stringify(tgState)).catch(() => {}));
+                        await sendOrEdit(chatId, `✅ ${t("tg_operator_preset")}: \`${text || "—"}\``, { inline_keyboard: [[{ text: "◀️ " + t("btn_back"), callback_data: "tg_network_menu" }]] });
+                        return new Response("OK", { status: 200 });
+                    }
+                    if (state.step === "tg_edit_routing") {
+                        sysConfig.routingRules = text || "";
+                        await cachedD1Put(env, "sys_config", JSON.stringify(sysConfig));
+                        tgState[chatId] = null;
+                        ctx?.waitUntil(d1Put(env, "tg_bot_state", JSON.stringify(tgState)).catch(() => {}));
+                        await sendOrEdit(chatId, `✅ ${t("tg_routing_rules")}: \`${text || "—"}\``, { inline_keyboard: [[{ text: "◀️ " + t("btn_back"), callback_data: "tg_network_menu" }]] });
+                        return new Response("OK", { status: 200 });
+                    }
+                    if (state.step === "tg_edit_upstream") {
+                        sysConfig.upstreamUri = text || "";
+                        await cachedD1Put(env, "sys_config", JSON.stringify(sysConfig));
+                        tgState[chatId] = null;
+                        ctx?.waitUntil(d1Put(env, "tg_bot_state", JSON.stringify(tgState)).catch(() => {}));
+                        await sendOrEdit(chatId, `✅ ${t("tg_upstream_uri")}: \`${text ? text.substring(0, 40) + "..." : "—"}\``, { inline_keyboard: [[{ text: "◀️ " + t("btn_back"), callback_data: "tg_network_menu" }]] });
                         return new Response("OK", { status: 200 });
                     }
                     if (state.step === "tg_edit_ports") {
@@ -7300,6 +7538,9 @@ async function buildUriProfile(
                 let extBase = `encryption=none&security=${sec}&sni=${hName}&fp=${sysConfig.agent}&type=ws&host=${hName}&path=${reqPath}`;
                 if (sysConfig.enableOpt2) extBase += `&pbk=enabled`;
                 extBase += `&allowInsecure=${allowInsecure ? "1" : "0"}`;
+                if (sysConfig.fragment?.enabled) {
+                    extBase += `&fragment=${sysConfig.fragment.packets || "tlshello"},${sysConfig.fragment.lengthMin || 50}-${sysConfig.fragment.lengthMax || 100},${sysConfig.fragment.sleepMin || 50}-${sysConfig.fragment.sleepMax || 100}`;
+                }
                 ips.forEach((ip) => {
                     let _pips = pips.length > 0 ? pips : [null];
                     _pips.forEach((selectedProxyIp) => {
@@ -7355,6 +7596,9 @@ async function buildUriProfile(
                         if (sysConfig.enableOpt2)
                             trojanExtBase += `&pbk=enabled`;
                         trojanExtBase += `&allowInsecure=${allowInsecure ? "1" : "0"}`;
+                        if (sysConfig.fragment?.enabled) {
+                            trojanExtBase += `&fragment=${sysConfig.fragment.packets || "tlshello"},${sysConfig.fragment.lengthMin || 50}-${sysConfig.fragment.lengthMax || 100},${sysConfig.fragment.sleepMin || 50}-${sysConfig.fragment.sleepMax || 100}`;
+                        }
                         lines.push(
                             `${getBeta()}://${p.id}@${ip}:${port}?${trojanExtBase}#${tName}`,
                         );
@@ -7420,6 +7664,9 @@ async function buildUriProfile(
                             if (sysConfig.enableOpt2)
                                 trojanExtBase2 += `&pbk=enabled`;
                             trojanExtBase2 += `&allowInsecure=${allowInsecure ? "1" : "0"}`;
+                            if (sysConfig.fragment?.enabled) {
+                                trojanExtBase2 += `&fragment=${sysConfig.fragment.packets || "tlshello"},${sysConfig.fragment.lengthMin || 50}-${sysConfig.fragment.lengthMax || 100},${sysConfig.fragment.sleepMin || 50}-${sysConfig.fragment.sleepMax || 100}`;
+                            }
                             lines.push(
                                 `${getBeta()}://${p.id}@${ip}:${port}?${trojanExtBase2}#${dtName}`,
                             );
@@ -7468,7 +7715,7 @@ async function fetchTemplates(env) {
 
 
 function getCustomRouting() {
-    let cr = sysConfig.customRouting || "";
+    let cr = (sysConfig.customRouting || "") + "\n" + (sysConfig.routingRules || "");
     let lines = cr.split('\n').map(l => l.trim()).filter(Boolean);
     let domains = [];
     let ips = [];
