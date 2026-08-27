@@ -519,6 +519,77 @@ export default {
                         } else {
                             html = html.replace('__HAS_DB_WARNING__', '<div class="mb-5 p-4 rounded-2xl flex items-start gap-3" style="background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);"><span style="color:#f87171;">&#9888;&#65039;</span><span class="text-sm" style="color:#fca5a5;" data-i18n="missing_db">Database not connected. Settings won\'t be saved.</span></div>');
                         }
+                        const extraSectionsHtml = `
+<div id="nahan-extra-sections" style="margin-top:1.5rem;">
+  <div id="fragment-section" class="mb-5 p-5 rounded-2xl" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
+    <h3 class="text-base font-semibold mb-4 flex items-center gap-2" style="color:var(--text);">🧩 Fragment</h3>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div class="flex items-center justify-between p-3 rounded-xl" style="background:rgba(255,255,255,0.03);">
+        <span class="text-sm" style="color:var(--text);">Enabled</span>
+        <label class="relative inline-flex items-center cursor-pointer"><input type="checkbox" id="frag-enabled" class="sr-only peer"><div class="w-11 h-6 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600" style="background:var(--border);"></div></label>
+      </div>
+      <div class="p-3 rounded-xl" style="background:rgba(255,255,255,0.03);">
+        <label class="text-xs block mb-1.5" style="color:var(--muted);">Packets</label>
+        <select id="frag-packets" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--card);border:1px solid var(--border);color:var(--text);">
+          <option value="tlshello">tlshello</option>
+          <option value="tls">tls</option>
+          <option value="http">http</option>
+        </select>
+      </div>
+      <div class="p-3 rounded-xl" style="background:rgba(255,255,255,0.03);">
+        <label class="text-xs block mb-1.5" style="color:var(--muted);">Length (min-max)</label>
+        <div class="flex gap-2"><input type="number" id="frag-len-min" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--card);border:1px solid var(--border);color:var(--text);" placeholder="50"><input type="number" id="frag-len-max" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--card);border:1px solid var(--border);color:var(--text);" placeholder="100"></div>
+      </div>
+      <div class="p-3 rounded-xl" style="background:rgba(255,255,255,0.03);">
+        <label class="text-xs block mb-1.5" style="color:var(--muted);">Sleep (min-max)</label>
+        <div class="flex gap-2"><input type="number" id="frag-slp-min" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--card);border:1px solid var(--border);color:var(--text);" placeholder="50"><input type="number" id="frag-slp-max" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--card);border:1px solid var(--border);color:var(--text);" placeholder="100"></div>
+      </div>
+    </div>
+    <button onclick="saveFragment()" class="mt-4 px-4 py-2 rounded-lg text-sm font-medium" style="background:var(--accent);color:#fff;">Save Fragment</button>
+  </div>
+  <div id="operator-section" class="mb-5 p-5 rounded-2xl" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
+    <h3 class="text-base font-semibold mb-4 flex items-center gap-2" style="color:var(--text);">📡 Operator Preset</h3>
+    <div class="p-3 rounded-xl" style="background:rgba(255,255,255,0.03);">
+      <label class="text-xs block mb-1.5" style="color:var(--muted);">Preset</label>
+      <select id="operator-preset" class="w-full text-sm rounded-lg px-3 py-2" style="background:var(--card);border:1px solid var(--border);color:var(--text);">
+        <option value="">None</option>
+        <option value="mci">MCI (Hamrahe Aval)</option>
+        <option value="irancell">Irancell</option>
+        <option value="rightel">Rightel</option>
+        <option value="shatel">Shatel</option>
+        <option value="mkb">MKb (MCI Business)</option>
+        <option value="amo">AME (Atomic)</option>
+      </select>
+    </div>
+    <button onclick="saveOperator()" class="mt-4 px-4 py-2 rounded-lg text-sm font-medium" style="background:var(--accent);color:#fff;">Save Operator</button>
+  </div>
+  <div id="routing-section" class="mb-5 p-5 rounded-2xl" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
+    <h3 class="text-base font-semibold mb-4 flex items-center gap-2" style="color:var(--text);">🔀 Routing Rules</h3>
+    <div class="p-3 rounded-xl" style="background:rgba(255,255,255,0.03);">
+      <label class="text-xs block mb-1.5" style="color:var(--muted);">Custom Rules (one per line)</label>
+      <textarea id="routing-rules" rows="5" class="w-full text-sm rounded-lg px-3 py-2 font-mono" style="background:var(--card);border:1px solid var(--border);color:var(--text);resize:vertical;" placeholder="example.com&#10;192.168.0.0/16&#10;geoip:ir&#10;geosite:ir"></textarea>
+      <p class="text-xs mt-1.5" style="color:var(--muted);">Supports: domain, IP/CIDR, geoip:XX, geosite:XX</p>
+    </div>
+    <button onclick="saveRouting()" class="mt-4 px-4 py-2 rounded-lg text-sm font-medium" style="background:var(--accent);color:#fff;">Save Routing</button>
+  </div>
+</div>
+<script>
+(function(){
+  const _fetch=window.fetch;const _token=()=>{try{return localStorage.getItem('nahan_token')||''}catch(e){return ''}};
+  async function _api(method,body){const r=await _fetch('/'+encodeURI(window.NAHAN_API_ROUTE||'sync')+'/api/sync',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({key:_token(),...body})});return await r.json()}
+  async function loadExtra(){try{const r=await _api('POST',{});if(!r.success)return;const c=r.config||r;const f=c.fragment||{};document.getElementById('frag-enabled').checked=!!f.enabled;document.getElementById('frag-packets').value=f.packets||'tlshello';document.getElementById('frag-len-min').value=f.lengthMin||50;document.getElementById('frag-len-max').value=f.lengthMax||100;document.getElementById('frag-slp-min').value=f.sleepMin||50;document.getElementById('frag-slp-max').value=f.sleepMax||100;document.getElementById('operator-preset').value=c.operatorPreset||'';document.getElementById('routing-rules').value=c.routingRules||'';}catch(e){}}
+  window.saveFragment=async function(){const cfg={fragment:{enabled:document.getElementById('frag-enabled').checked,packets:document.getElementById('frag-packets').value,lengthMin:parseInt(document.getElementById('frag-len-min').value)||50,lengthMax:parseInt(document.getElementById('frag-len-max').value)||100,sleepMin:parseInt(document.getElementById('frag-slp-min').value)||50,sleepMax:parseInt(document.getElementById('frag-slp-max').value)||100}};await _api('POST',{config:cfg});};
+  window.saveOperator=async function(){await _api('POST',{config:{operatorPreset:document.getElementById('operator-preset').value}});};
+  window.saveRouting=async function(){await _api('POST',{config:{routingRules:document.getElementById('routing-rules').value}});};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',loadExtra);else loadExtra();
+})();
+</script>`;
+                        const bodyClose = html.indexOf('</body>');
+                        if (bodyClose !== -1) {
+                            html = html.substring(0, bodyClose) + extraSectionsHtml + html.substring(bodyClose);
+                        } else {
+                            html += extraSectionsHtml;
+                        }
                         return new Response(html, {
                             headers: { "Content-Type": "text/html;charset=utf-8" },
                         });
